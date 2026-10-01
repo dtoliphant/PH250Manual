@@ -1,0 +1,43 @@
+% Reusable laptop computer (flat style).  Screen 4.4 x 2.8 centred on (0,0.15).
+% Usage:
+%   \input{Reusable_TikZ/laptop-pic.tex}
+%   \pic (pc) {laptop};
+% Anchors: screen-center, screen-north-west, screen-north-east,
+%   screen-south-west, screen-south-east, usb (right-hand port), keyboard,
+%   west, east, north, south, center.
+\providecolor{otblue}{HTML}{0072B2}
+\providecolor{otgray}{HTML}{292929}
+
+\tikzset{
+  pics/laptop/.style={
+    code={
+      % lid and screen
+      \path[fill=otgray!18,rounded corners=.15cm] (-2.52,-1.62) rectangle (2.68,1.78);
+      \path[fill=otgray!85,draw=otgray,line width=.8pt,rounded corners=.15cm] (-2.60,-1.55) rectangle (2.60,1.85);
+      \path[fill=otblue!6,draw=otgray!60,line width=.4pt] (-2.20,-1.25) rectangle (2.20,1.55);
+      \fill[otgray!40] (0,1.70) circle (.04);
+      % base and keyboard deck
+      \path[fill=otgray!18] (-2.84,-2.40) rectangle (2.96,-2.30);
+      \path[fill=otgray!35,draw=otgray,line width=.8pt,rounded corners=.06cm]
+        (-2.60,-1.55) -- (2.60,-1.55) -- (2.90,-2.25) -- (-2.90,-2.25) -- cycle;
+      \foreach \r in {0,1,2}{
+        \foreach \k in {0,...,13}{
+          \path[fill=otgray!70] ({-2.28+\k*.33-\r*.06},{-1.66-\r*.15}) rectangle ++(.27,-.10);}}
+      \path[fill=otgray!55,rounded corners=.03cm] (-.55,-2.12) rectangle (.55,-2.20);
+      \path[fill=otgray!80] (2.77,-1.98) rectangle (2.87,-1.90);
+      % anchors
+      \coordinate (-usb) at (2.87,-1.94);
+      \coordinate (-keyboard) at (0,-1.85);
+      \coordinate (-screen-center) at (0,.15);
+      \coordinate (-screen-north-west) at (-2.20,1.55);
+      \coordinate (-screen-north-east) at (2.20,1.55);
+      \coordinate (-screen-south-west) at (-2.20,-1.25);
+      \coordinate (-screen-south-east) at (2.20,-1.25);
+      \coordinate (-west) at (-2.90,-.20);
+      \coordinate (-east) at (2.90,-.20);
+      \coordinate (-north) at (0,1.85);
+      \coordinate (-south) at (0,-2.25);
+      \coordinate (-center) at (0,-.20);
+    }
+  },
+}

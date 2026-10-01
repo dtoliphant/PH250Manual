@@ -1,0 +1,13 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{lab-style.tex}
+\input{schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic[rotate=90] (b) at (0,1.2) {battery};
+  \pic[rotate=90] (r) at (2.2,1.2) {resistor};
+  \draw[circuit wire] (b-right) -- (0,2.4) -- (2.2,2.4) -- (r-right);
+  \draw[circuit wire] (r-left) -- (2.2,0) -- (0,0) -- (b-left);
+  \node[label,anchor=east] at (-.4,1.2) {$\Delta V$};
+  \node[label,anchor=west] at (2.5,1.2) {$R$};
+\end{tikzpicture}
+\end{document}

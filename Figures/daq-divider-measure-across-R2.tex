@@ -1,0 +1,23 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic[rotate=90] (b) at (0,1.8) {battery};
+  \pic[rotate=90] (r1) at (2.2,2.7) {resistor};
+  \pic[rotate=90] (r2) at (2.2,.9) {resistor};
+  \draw[circuit wire] (b-right) -- (0,3.6) -- (2.2,3.6) -- (r1-right);
+  \draw[circuit wire] (r1-left) -- (r2-right);
+  \draw[circuit wire] (r2-left) -- (2.2,0) -- (0,0) -- (b-left);
+  \node[label,anchor=east] at (-.4,1.8) {$\Delta V$};
+  \node[label,anchor=west] at (2.5,2.7) {$R_1$};
+  \node[label,anchor=west] at (2.5,.9) {$R_2$};
+
+  \node[junction] at (2.2,1.8) {};
+  \node[junction] at (2.2,0) {};
+  \draw[circuit wire] (2.2,1.8) -- (3.6,1.8);
+  \draw[circuit wire] (2.2,0) -- (3.6,0);
+  \draw[dimension,dashed] (3.2,1.7) -- (3.2,.1);
+  \node[label,text=otblue,anchor=west] at (3.35,.9) {measure};
+\end{tikzpicture}
+\end{document}

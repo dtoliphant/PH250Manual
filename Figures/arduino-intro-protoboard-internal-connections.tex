@@ -1,0 +1,18 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/protoboard-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (board) {protoboard={0}{0}};
+  \pic at (board-origin) {protoboard connections};
+  \node[callout text,anchor=south] at (7.0,6.08) {All 32 holes in the row connected as a unit};
+  \draw[otblue,line width=.65pt] (0.72,5.65) -- (0.72,5.83) -- (13.47,5.83) -- (13.47,5.65);
+  \draw[otblue,line width=.65pt] (7.0,5.83) -- (7.0,5.56);
+  \node[callout text,anchor=north] at (7.0,-0.63) {All 32 holes in the row connected as a unit};
+  \draw[otblue,line width=.65pt] (0.72,-0.18) -- (0.72,-0.39) -- (13.47,-0.39) -- (13.47,-0.18);
+  \node[callout text,anchor=west] at (14.75,3.73) {All five holes in the column\\connected as a unit};
+  \draw[otblue,line width=.65pt] (14.44,4.05) -- (14.22,4.05) -- (14.22,3.09) -- (14.44,3.09);
+  \node[callout text,anchor=west] at (14.75,1.79) {All five holes in the column\\connected as a unit};
+  \draw[otblue,line width=.65pt] (14.44,2.27) -- (14.22,2.27) -- (14.22,1.31) -- (14.44,1.31);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/app-window-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (w) {app window={9.4}{5.6}{sketch | Arduino IDE}{File\quad Edit\quad Sketch\quad \textbf{Tools}\quad Help}};
+  \path[fill=otgray!18] (2.61,-1.03) rectangle (6.21,-4.73);
+  \path[fill=white,draw=otgray!60,line width=.5pt] (2.55,-.97) rectangle (6.15,-4.67);
+  \node[font=\sffamily\scriptsize,text=otgray,align=left,anchor=north west] at (2.65,-1.05)
+    {Auto Format\\Archive Sketch\\Serial Monitor\\Serial Plotter\\[2pt]Board: ``Arduino Uno''};
+  \path[fill=otsky!35] (2.6,-2.72) rectangle (6.1,-3.08);
+  \node[font=\sffamily\scriptsize\bfseries,text=otgray,anchor=west] at (2.65,-2.9) {Port: ``COM6''};
+  \node[font=\sffamily\scriptsize,text=otgray,anchor=east] at (6.05,-2.9) {$\blacktriangleright$};
+  \node[font=\sffamily\scriptsize,text=otgray,align=left,anchor=north west] at (2.65,-3.15)
+    {Get Board Info\\[2pt]Programmer\\Burn Bootloader};
+  \path[fill=otgray!18] (6.16,-2.26) rectangle (9.06,-3.46);
+  \path[fill=white,draw=otgray!60,line width=.5pt] (6.1,-2.2) rectangle (9.0,-3.4);
+  \node[font=\sffamily\scriptsize,text=otgray,align=left,anchor=north west] at (6.2,-2.25) {Serial ports\\COM1};
+  \path[fill=otsky!35] (6.15,-2.95) rectangle (8.95,-3.33);
+  \node[font=\sffamily\scriptsize\bfseries,text=otgray,anchor=west] at (6.2,-3.14) {COM6 (Arduino Uno)};
+  \node[label,anchor=north] (c) at (7.55,-3.95) {the port your\\Arduino is on};
+  \draw[callout] (c.north) -- (7.55,-3.35);
+\end{tikzpicture}
+\end{document}

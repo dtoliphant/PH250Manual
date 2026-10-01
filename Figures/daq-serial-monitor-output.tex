@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/app-window-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (w) {app window={9}{5.2}{COM6 (Arduino Uno)}{}};
+  \draw[otgray!50,line width=.5pt] (.15,-.93) rectangle (7.9,-1.28);
+  \node[font=\sffamily\scriptsize,text=otgray,draw=otgray!50,line width=.5pt,minimum width=.8cm,minimum height=.35cm] at (8.45,-1.105) {Send};
+  % Streamed output from DAQ_voltmeter.ino
+  \node[font=\ttfamily\scriptsize,text=otgray,align=left,anchor=north west] at (.2,-1.43)
+    { A2D 278 voltage 1.3587\\ A2D 279 voltage 1.3636\\ A2D 281 voltage 1.3734\\
+      A2D 280 voltage 1.3685\\ A2D 282 voltage 1.3783\\ A2D 281 voltage 1.3734\\
+      A2D 279 voltage 1.3636\\ A2D 280 voltage 1.3685};
+  \draw[otgray!40,line width=.4pt] (0,-4.75) -- (9,-4.75);
+  \node[font=\sffamily\scriptsize,text=otgray,anchor=west] at (.2,-4.98) {[x] Autoscroll};
+  \node[font=\sffamily\scriptsize,text=otgray,draw=otgray!50,anchor=east] at (8.8,-4.98) {9600 baud};
+  \node[font=\sffamily\scriptsize,text=otgray,draw=otgray!50,anchor=east] at (7.0,-4.98) {Newline};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,109 @@
+#########################################################
+# Program to do a curve fit in python with a user defined 
+#  fit equation and %  with data supplied by the user.
+# The user types the data into numpy arrays by hand,
+#  and supplies a function with the fit equation.
+#  In this example, the function is called RC_Charging.
+#
+# Author:  Todd Lines
+# Date:    2023-02-20
+#########################################################
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+
+# Define the Gaussian function
+print("  ")
+print("Find a curve fit to a user defined function")
+
+#Here is where you define the function to use in the fit
+def RC_Charging(x, A, B, C):
+    y = A*(1-np.exp(-B*x)) + C
+    return y
+
+def linefunc(x, m, b):
+    y = x*m +b
+    return y
+
+#here is where you give the data to fit. Put it into numpy 
+#  arrays. Say our data is voltage vs. time. Put the
+#  time #  values in the xdata array and the voltage 
+#  values in the #  ydata array. For the exmple the units
+#  are seconds and volts
+xdata=np.array([0.001274, 0.001764, 0.001029, 0.00049, 0.000735, 0.002058, 
+            0.000049, 0.000735, 0.001127, 0.00147  ])
+ydata=np.array([2.8824 , 3.807, 2.3275, 1.1907, 1.7003, 4.3659, 0.3087, 
+            1.7787, 2.5333, 3.1164 ])
+
+#we also need the ydata uncertainty for error bars. 
+#  Say it is 0.1  (you sould calculate what your
+#  value should be)
+ydata_err = 0.1 #V
+
+#Now plot the data so we can see the data points
+#plt.plot(xdata, ydata, 'o')
+
+
+#Now perform the curve fit. We can't just use a linear 
+#  fit. The data is very much not linear. So we 
+#  will use a more robust curve fit rotine from scipy.
+#  The sciepy optimize curve_fit() routine needs the 
+#  equation to use for the fit as a function (here 
+#  RC_Charting()) and it needs the fit parameters and
+#  for the error on the fit parameters we need the 
+# covariance matrix to be output
+#parameters, covariance = curve_fit(RC_Charging, 
+#                                   xdata, ydata)
+parameters, covariance = curve_fit(linefunc, 
+                                   xdata, ydata)
+
+#Pull out the fit prameters
+fit_m = parameters[0]
+fit_b = parameters[1]
+#fit_C = parameters[2]
+
+
+#Pull out the uncertanty from the diagonal elements 
+#  of the covariance matrix. Remember that the 
+#  diagonal elements #  are the error squared.
+SE = np.sqrt(np.diag(covariance))
+SE_m = SE[0]
+SE_b = SE[1]
+#SE_C = SE[2]
+
+#Use the fit parameters to make a set of estamated 
+#  y values #  from the fit equation. We can pass 
+#  in the whole xdata array #  and get out all the 
+#  y value estimates at once using our #  function 
+#  with our fit equation.  I called the new y-values
+#  fit_y.
+#fit_y = RC_Charging(xdata, fit_A, fit_B, fit_C)
+fit_y = linefunc(xdata, fit_m, fit_b)
+
+#Plot the data (as dots) and the fit (as a line) to 
+#  see if the equation makes sense as a good fit.
+plt.xlabel('Time in seconds')
+plt.ylabel('Voltage (V)')
+plt.errorbar(xdata, ydata, yerr = ydata_err, 
+             label ='data', fmt='ro')
+plt.plot(xdata, fit_y, 'b-', label='fit')
+plt.legend()
+plt.show()
+
+#and print out our fit parameters and their 
+#  uncertainties
+print("  ")
+print('The value of A is ',fit_m, end =" ") 
+print ('with standard error of ', SE_m)
+print('The value of B is ', fit_b, end =" ")
+#print('with standard error of', SE_b)
+#print('The value of C is', fit_C, end =" ")
+#print('with standard error of', SE_C)
+print("  ")
+
+#sometimes the curve fit routine throws a 
+#  math warning, let the user know that the program 
+#  ended and not to be upset about the warning
+print('successful end of program')
+print('warning about overflow may follow')
+print("  ")

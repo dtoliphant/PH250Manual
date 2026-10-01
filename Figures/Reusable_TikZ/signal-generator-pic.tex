@@ -1,0 +1,77 @@
+% Reusable function / signal generator (8.0 x 3.0, centred on the origin).
+% Usage:
+%   \input{Reusable_TikZ/signal-generator-pic.tex}
+%   \pic (fg) {signal generator={1.000}{kHz}};   % display reading and unit
+%   \draw[redwire] (fg-output) -- ...;
+% Anchors: output, sync (BNC connectors), display, waveform, range,
+%   output-button, frequency, amplitude, offset, power, west, east, north,
+%   south, center.
+\providecolor{otorange}{HTML}{D62839}
+\providecolor{otgray}{HTML}{292929}
+\providecolor{otscreen}{HTML}{15202B}
+\providecolor{otlcd}{HTML}{7CE0B8}
+
+\tikzset{
+  pics/signal generator/.default={1.000}{kHz},
+  pics/signal generator/.style 2 args={
+    code={
+      \path[fill=otgray!18,rounded corners=.22cm] (-3.90,-1.60) rectangle (4.10,1.40);
+      \path[fill=otgray!10,draw=otgray,line width=.95pt,rounded corners=.22cm] (-4.00,-1.50) rectangle (4.00,1.50);
+      \draw[otgray!35,line width=.35pt,rounded corners=.16cm] (-3.86,-1.36) rectangle (3.86,1.36);
+      \node[font=\sffamily\bfseries\fontsize{4.2}{4.6}\selectfont,text=otgray,anchor=west] at (-3.70,1.20) {FUNCTION GENERATOR\enspace 0.1\,Hz -- 2\,MHz};
+      % Frequency display
+      \path[fill=otgray!85,draw=otgray,line width=.6pt,rounded corners=.08cm] (-3.70,.30) rectangle (-1.50,1.00);
+      \path[fill=otscreen] (-3.58,.38) rectangle (-1.62,.92);
+      \node[font=\ttfamily\bfseries\large,text=otlcd] at (-2.78,.65) {#1};
+      \node[font=\sffamily\bfseries\scriptsize,text=otlcd] at (-1.94,.58) {#2};
+      % Waveform buttons with sine / square / triangle glyphs
+      \node[font=\sffamily\bfseries\fontsize{4.2}{4.6}\selectfont,text=otgray] at (-.55,1.02) {WAVEFORM};
+      \foreach \x in {-1.05,-.55,-.05}{
+        \path[fill=otgray!25,draw=otgray,line width=.45pt,rounded corners=.04cm] (\x-.20,.49) rectangle (\x+.20,.81);}
+      \draw[otgray,line width=.55pt,domain=-.13:.13,samples=25] plot (\x-1.05,{.65+.08*sin(1385*\x)});
+      \draw[otgray,line width=.55pt] (-.68,.61) -- (-.68,.71) -- (-.55,.71) -- (-.55,.59) -- (-.42,.59) -- (-.42,.69);
+      \draw[otgray,line width=.55pt] (-.18,.59) -- (-.11,.72) -- (-.02,.58) -- (.06,.72) -- (.09,.66);
+      % Frequency-range buttons
+      \node[font=\sffamily\bfseries\fontsize{4.2}{4.6}\selectfont,text=otgray] at (1.55,1.02) {RANGE (Hz)};
+      \foreach \t [count=\i] in {1,10,100,1k,10k,100k}{
+        \path[fill=otgray!25,draw=otgray,line width=.45pt,rounded corners=.04cm] (.29+\i*.37,.49) rectangle (.61+\i*.37,.81);
+        \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (.45+\i*.37,.65) {\t};}
+      % Output enable
+      \path[fill=otorange!45,draw=otgray,line width=.45pt,rounded corners=.04cm] (2.99,.49) rectangle (3.71,.81);
+      \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (3.35,.65) {OUTPUT};
+      % Knobs: x / y / radius / pointer angle
+      \foreach \x/\y/\r/\a in {-2.60/-.55/.46/135, -.55/-.55/.34/70, .65/-.55/.28/90}{
+        \fill[otgray!25] (\x+.03,\y-.03) circle (\r);
+        \path[fill=otgray!70,draw=otgray,line width=.6pt] (\x,\y) circle (\r);
+        \path[fill=otgray!45,draw=otgray!80,line width=.35pt] (\x,\y) circle ({.72*\r});
+        \draw[otgray!5,line width=.9pt,line cap=round] (\x,\y) -- ++(\a:{.66*\r});}
+      \foreach \x/\y/\t in {-2.60/-1.17/FREQUENCY, -.55/-1.06/AMPLITUDE, .65/-1.06/DC OFFSET}{
+        \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (\x,\y) {\t};}
+      % Output connectors: x / ring colour / label
+      \foreach \x/\c/\t in {2.15/otgray/{SYNC / TTL}, 3.35/otorange/OUTPUT 50\,$\Omega$}{
+        \path[fill=\c!25,draw=\c,line width=.9pt] (\x,-.55) circle (.20);
+        \path[fill=otgray!55,draw=otgray,line width=.5pt] (\x,-.55) circle (.13);
+        \fill[otgray!90] (\x,-.55) circle (.045);
+        \draw[otgray,line width=.6pt] (\x-.17,-.45) -- ++(-.06,.035) (\x+.17,-.65) -- ++(.06,-.035);
+        \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (\x,-.98) {\t};}
+      % Power button
+      \path[fill=otgray!45,draw=otgray,line width=.45pt,rounded corners=.04cm] (-3.70,-1.22) rectangle (-3.40,-1.02);
+      % Anchors
+      \coordinate (-display) at (-2.60,.65);
+      \coordinate (-waveform) at (-.55,.65);
+      \coordinate (-range) at (1.55,.65);
+      \coordinate (-output-button) at (3.35,.65);
+      \coordinate (-frequency) at (-2.60,-.55);
+      \coordinate (-amplitude) at (-.55,-.55);
+      \coordinate (-offset) at (.65,-.55);
+      \coordinate (-sync) at (2.15,-.55);
+      \coordinate (-output) at (3.35,-.55);
+      \coordinate (-power) at (-3.55,-1.12);
+      \coordinate (-west) at (-4.00,0);
+      \coordinate (-east) at (4.00,0);
+      \coordinate (-north) at (0,1.50);
+      \coordinate (-south) at (0,-1.50);
+      \coordinate (-center) at (0,0);
+    }
+  },
+}

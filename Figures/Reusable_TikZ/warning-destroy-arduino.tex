@@ -1,0 +1,16 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Hazard-striped warning panel used wherever a wiring step can damage an
+  % Arduino analog input.
+  \path[fill=otamber,draw=otgray,line width=1pt,rounded corners=2pt] (0,0) rectangle (7.6,2.6);
+  \begin{scope}
+    \clip[rounded corners=2pt] (0,0) rectangle (7.6,2.6);
+    \foreach \s in {-3,-2.6,...,7.6}{\fill[otgray] (\s,0) -- ++(.2,0) -- ++(2.6,2.6) -- ++(-.2,0) -- cycle;}
+  \end{scope}
+  \path[fill=otamber!12,draw=otgray,line width=.8pt] (.28,.28) rectangle (7.32,2.32);
+  \node[font=\sffamily\bfseries\LARGE,text=otorange] at (3.8,1.72) {WARNING};
+  \node[font=\sffamily\bfseries,text=otgray,align=center] at (3.8,.9) {If done wrong this step can\\destroy your Arduino};
+\end{tikzpicture}
+\end{document}

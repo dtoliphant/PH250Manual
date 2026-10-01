@@ -1,0 +1,11 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \draw[circuit wire] (0,0) -- (1.4,0);
+  \pic (r) at (2,0) {resistor};
+  \draw[circuit wire] (2.6,0) -- (4,0);
+  \node[label,font=\sffamily] at (2,.45) {$R$};
+\end{tikzpicture}
+\end{document}

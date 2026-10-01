@@ -1,0 +1,21 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % t_min, t_n and t_max mapped through the curve to y_min, y_n, y_max
+  \begin{scope}[xscale=10,yscale=6]
+    \draw[graph axis] (0,0) -- (.9,0) node[right,label] {$t$ (s)};
+    \draw[graph axis] (0,0) -- (0,.95) node[above,label] {$y$ (m)};
+    \draw[curve] plot[smooth,domain=0:.8163,samples=80] (\x,{4*\x-4.9*\x*\x});
+    \draw[guide] (.10,0) -- (.10,.351) -- (0,.351);
+    \draw[guide,draw=otgray] (.15,0) -- (.15,.48975) -- (0,.48975);
+    \draw[guide] (.20,0) -- (.20,.604) -- (0,.604);
+    \node[tick label,below] at (.09,0) {$t_{\min}$};
+    \node[tick label,below] at (.15,0) {$t_n$};
+    \node[tick label,below] at (.21,0) {$t_{\max}$};
+    \node[label,anchor=east] at (0,.351) {$y_{\min}$};
+    \node[label,anchor=east] at (0,.48975) {$y_n$};
+    \node[label,anchor=east] at (0,.604) {$y_{\max}$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

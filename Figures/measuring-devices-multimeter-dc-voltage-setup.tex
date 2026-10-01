@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/multimeter-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic[scale=.5,transform shape] (m) at (0,0) {multimeter={4.98}{V}{132}{1}};
+  \node[title] at (0,2.0) {DC voltage setup};
+  \node[label,anchor=east] at (-1.5,.9) {display};
+  \draw[callout] (-1.4,.9) -- (-.7,.9);
+  \node[label,anchor=east] at (-1.5,-.1) {dial set to\\DC volts};
+  \draw[callout] (-1.4,-.1) -- (-.5,-.1);
+  \node[label,anchor=west] at (1.25,-1.05) {COM and\\V$\Omega$Hz jacks};
+  \draw[callout] (1.15,-1.05) -- (.65,-1.05);
+  \draw[blackwire] (m-jack-com) .. controls (-.15,-2.0) and (-1.6,-2.4) .. (-2.4,-3.0);
+  \draw[redwire] (m-jack-vomega) .. controls (.85,-2.0) and (1.8,-2.4) .. (2.4,-3.0);
+  \node[label] at (-2.5,-3.25) {COM};
+  \node[label] at (2.5,-3.25) {V};
+\end{tikzpicture}
+\end{document}

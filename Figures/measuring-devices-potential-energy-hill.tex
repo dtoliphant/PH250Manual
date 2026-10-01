@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/analogy-pics.tex}
+\begin{document}
+\begin{tikzpicture}
+  \path[fill=otteal!10] plot[smooth,domain=-4.2:4.2,samples=80] (\x,{3.1*exp(-(\x/2.1)^2)}) -- (4.2,0) -- (-4.2,0) -- cycle;
+  \draw[line] plot[smooth,domain=-4.2:4.2,samples=80] (\x,{3.1*exp(-(\x/2.1)^2)});
+  \draw[otgray!50,line width=.6pt] (-4.4,0) -- (4.4,0);
+  \pic at (0,3.1) {person=otblue};
+  \pic at (2.75,0.56) {person=otorange};
+  \draw[otblue!40,dashed,line width=.6pt] (0,3.1) -- (1.85,3.1);
+  \draw[otblue!40,dashed,line width=.6pt] (2.75,0.56) -- (1.85,0.56);
+  \draw[dimension] (1.85,3.1) -- (1.85,0.56) node[midway,right,label] {$\Delta U_g$};
+  \node[label,anchor=west] (hi) at (-4.6,3.8) {high gravitational\\potential energy};
+  \draw[callout] (hi.east) -- (-.25,3.85);
+  \node[label,anchor=west] (lo) at (2.9,1.95) {low gravitational\\potential energy};
+  \draw[callout] (lo.south) -- (3.0,1.46);
+\end{tikzpicture}
+\end{document}

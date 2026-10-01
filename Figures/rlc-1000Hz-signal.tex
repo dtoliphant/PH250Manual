@@ -1,0 +1,14 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % A 1000 Hz, +/-10 V signal to be sampled
+  \begin{scope}[xscale=1,yscale=.18]
+    \draw[graph axis] (0,0) -- (10.8,0) node[right,label] {time (s)};
+    \draw[graph axis] (0,-11.5) -- (0,11.8) node[above,label] {voltage (V)};
+    \foreach \x/\t in {2/0.002,4/0.004,6/0.006,8/0.008,10/0.01}{\draw[graph tick] (\x,0) -- ++(0,-.4) node[below,tick label] {\t};}
+    \foreach \y in {-10,-5,5,10}{\draw[graph tick] (0,\y) -- ++(-.08,0) node[left,tick label] {\y};}
+    \draw[model] plot[smooth,domain=0:10,samples=500] (\x,{10*sin(360*\x)});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

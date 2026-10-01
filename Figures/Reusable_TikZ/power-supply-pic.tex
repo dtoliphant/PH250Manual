@@ -1,0 +1,69 @@
+% Reusable adjustable DC bench power supply (6.0 x 3.4, centred on the origin).
+% Usage:
+%   \input{Reusable_TikZ/power-supply-pic.tex}
+%   \pic (ps) {power supply={05.0}{0.02}};      % voltage and current displays
+%   \draw[redwire] (ps-plus) -- ...;  \draw[blackwire] (ps-minus) -- ...;
+% Anchors: plus, minus, gnd (binding posts), voltage-display, current-display,
+%   voltage-coarse, voltage-fine, current-knob, power, west, east, north,
+%   south, center.
+\providecolor{otorange}{HTML}{D62839}
+\providecolor{otteal}{HTML}{009E73}
+\providecolor{otgray}{HTML}{292929}
+\providecolor{otscreen}{HTML}{15202B}
+\providecolor{otlcd}{HTML}{7CE0B8}
+
+\tikzset{
+  pics/power supply/.default={05.0}{0.00},
+  pics/power supply/.style 2 args={
+    code={
+      \path[fill=otgray!18,rounded corners=.22cm] (-2.90,-1.80) rectangle (3.10,1.60);
+      \path[fill=otgray!10,draw=otgray,line width=.95pt,rounded corners=.22cm] (-3.00,-1.70) rectangle (3.00,1.70);
+      \draw[otgray!35,line width=.35pt,rounded corners=.16cm] (-2.86,-1.56) rectangle (2.86,1.56);
+      \node[font=\sffamily\bfseries\fontsize{4.2}{4.6}\selectfont,text=otgray,anchor=west] at (-2.70,1.40) {DC POWER SUPPLY\enspace 0--30\,V\enspace 0--3\,A};
+      % Current (left) and voltage (right) LED displays
+      \foreach \x in {-1.35,1.35}{
+        \path[fill=otgray!85,draw=otgray,line width=.6pt,rounded corners=.08cm] (\x-1.20,.52) rectangle (\x+1.20,1.22);
+        \path[fill=otscreen] (\x-1.08,.60) rectangle (\x+1.08,1.14);}
+      \node[font=\ttfamily\bfseries\large,text=otlcd] at (-1.43,.87) {#2};
+      \node[font=\ttfamily\bfseries\large,text=otlcd] at (1.27,.87) {#1};
+      \node[font=\sffamily\bfseries\scriptsize,text=otlcd] at (-.49,.80) {A};
+      \node[font=\sffamily\bfseries\scriptsize,text=otlcd] at (2.21,.80) {V};
+      % Knobs: x / y / radius / pointer angle
+      \foreach \x/\y/\r/\a in {-2.05/-.20/.36/130, .55/-.35/.36/75, 1.65/-.35/.26/100}{
+        \fill[otgray!25] (\x+.03,\y-.03) circle (\r);
+        \path[fill=otgray!70,draw=otgray,line width=.6pt] (\x,\y) circle (\r);
+        \path[fill=otgray!45,draw=otgray!80,line width=.35pt] (\x,\y) circle ({.72*\r});
+        \draw[otgray!5,line width=.9pt,line cap=round] (\x,\y) -- ++(\a:{.66*\r});}
+      \foreach \x/\y/\t in {-2.05/-.72/CURRENT, .55/-.88/COARSE, 1.65/-.88/FINE}{
+        \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (\x,\y) {\t};}
+      \node[font=\sffamily\bfseries\fontsize{4.2}{4.6}\selectfont,text=otgray] at (1.10,.20) {VOLTAGE};
+      \draw[otgray!45,line width=.4pt] (.45,.12) -- (.15,.12) (1.75,.12) -- (2.05,.12);
+      % Power switch
+      \path[fill=otgray!70,draw=otgray,line width=.5pt,rounded corners=.04cm] (-2.45,-1.42) rectangle (-1.85,-1.10);
+      \path[fill=otgray!30] (-2.40,-1.37) rectangle (-2.15,-1.15);
+      \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray,anchor=west] at (-1.80,-1.26) {POWER};
+      % Output binding posts: x / colour / label
+      \foreach \x/\c/\t in {-.55/otgray/$-$, .35/otteal/GND, 1.25/otorange/$+$}{
+        \fill[otgray!25] (\x+.03,-1.23) circle (.21);
+        \path[fill=\c!80,draw=otgray,line width=.6pt] (\x,-1.20) circle (.21);
+        \path[fill=\c!45,draw=otgray!70,line width=.35pt] (\x,-1.20) circle (.13);
+        \fill[otgray!90] (\x,-1.20) circle (.05);
+        \node[font=\sffamily\bfseries\fontsize{4.2}{4.6}\selectfont,text=otgray] at (\x,-1.52) {\t};}
+      % Anchors
+      \coordinate (-current-display) at (-1.35,.87);
+      \coordinate (-voltage-display) at (1.35,.87);
+      \coordinate (-current-knob) at (-2.05,-.20);
+      \coordinate (-voltage-coarse) at (.55,-.35);
+      \coordinate (-voltage-fine) at (1.65,-.35);
+      \coordinate (-power) at (-2.15,-1.26);
+      \coordinate (-minus) at (-.55,-1.20);
+      \coordinate (-gnd) at (.35,-1.20);
+      \coordinate (-plus) at (1.25,-1.20);
+      \coordinate (-west) at (-3.00,0);
+      \coordinate (-east) at (3.00,0);
+      \coordinate (-north) at (0,1.70);
+      \coordinate (-south) at (0,-1.70);
+      \coordinate (-center) at (0,0);
+    }
+  },
+}

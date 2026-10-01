@@ -1,0 +1,23 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % y(x,z) drawn in an oblique projection: screen = (x - 0.55 z, 0.3 z + 1.9 y)
+  \foreach \z in {-2.4,-2.0,...,2.4}{
+    \draw[otpurple!70,line width=.4pt] plot[smooth,domain=-2.6:2.6,samples=40]
+      ({\x-0.55*\z},{0.3*\z+1.9*exp(-(\x*\x+\z*\z)/2)});}
+  \foreach \xx in {-2.4,-2.0,...,2.4}{
+    \draw[otsky!90!black,line width=.4pt] plot[smooth,domain=-2.6:2.6,samples=40]
+      ({\xx-0.55*\x},{0.3*\x+1.9*exp(-(\xx*\xx+\x*\x)/2)});}
+  \draw[graph axis] (0,0) -- (3.4,0) node[right,label] {$x$};
+  \draw[graph axis] (0,0) -- (-1.6,-.87) node[below left,label] {$z$};
+  \draw[graph axis] (0,0) -- (0,2.6) node[above,label] {$y$};
+  % Downhill along x and along z from a point near the top
+  \draw[draw=otorange,line width=1.6pt,-{Latex[length=2.5mm]}] plot[smooth,domain=.4:2.2,samples=20]
+    ({\x-0.22},{0.12+1.9*exp(-(\x*\x+.16)/2)});
+  \draw[draw=otblue,line width=1.6pt,-{Latex[length=2.5mm]}] plot[smooth,domain=.4:2.2,samples=20]
+    ({.4-0.55*\x},{0.3*\x+1.9*exp(-(.16+\x*\x)/2)});
+  \node[label,text=otorange,anchor=west] at (2.0,1.6) {downhill in the\\$x$ direction};
+  \node[label,text=otblue,anchor=east] at (-1.6,1.6) {downhill in the\\$z$ direction};
+\end{tikzpicture}
+\end{document}

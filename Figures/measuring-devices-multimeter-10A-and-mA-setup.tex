@@ -1,0 +1,23 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/multimeter-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Meter 1: dial on 10 A, red lead in the 10 A jack
+  \pic[scale=.55,transform shape] (left) at (0,0) {multimeter={0.02}{A}{20}{1}};
+  \draw[redwire] (left-jack-10a) -- ++(0,-.35) .. controls ++(0,-.4) and ++(.3,.2) .. ++(-.6,-.9);
+  \draw[blackwire] (left-jack-com) -- ++(0,-.35) .. controls ++(0,-.4) and ++(-.3,.2) .. ++(.6,-.9);
+  % Meter 2 (the lab's second model)
+  \pic[scale=.55,transform shape] (right) at (5.4,0) {multimeter={20.4}{mA}{76}{2}};
+  \draw[redwire] (right-jack-ma) -- ++(0,-.35) .. controls ++(0,-.4) and ++(.3,.2) .. ++(-.6,-.9);
+  \draw[blackwire] (right-jack-com) -- ++(0,-.35) .. controls ++(0,-.4) and ++(-.3,.2) .. ++(.6,-.9);
+  \node[label,anchor=east] (d1) at (-1.35,.9) {dial set to\\10\,A scale};
+  \draw[callout] (d1.east) -- ($(left-selector)+(20:.45)$);
+  \node[label,anchor=east] (r1) at (-1.35,-1.6) {red probe in the\\10\,A connection};
+  \draw[callout] (r1.east) -- (left-jack-10a);
+  \node[label,anchor=west] (d2) at (6.75,.9) {dial set to\\mA scale};
+  \draw[callout] (d2.west) -- ($(right-selector)+(76:.45)$);
+  \node[label,anchor=west] (r2) at (6.75,-1.6) {red probe in the\\mA connection};
+  \draw[callout] (r2.west) .. controls ++(-.9,0) and ++(0,-.7) .. (right-jack-ma);
+\end{tikzpicture}
+\end{document}

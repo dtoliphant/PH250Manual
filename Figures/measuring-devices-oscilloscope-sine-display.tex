@@ -1,0 +1,15 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/oscilloscope-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Triggered (stable) sine wave; the trigger point is at the screen centre.
+  \pic (s) {oscilloscope={CH1 1.00V}{}{M 1.00ms}{8}};
+  \begin{scope}[shift={(s-screen-center)},xscale=.4,yscale=0.4]
+    \clip (-5,-4) rectangle (5,4);
+    \draw[otamber,line width=1.3pt] plot[domain=-5:5,samples=160] (\x,{2.4*sin(120*\x)});
+  \end{scope}
+  \pic at (s-screen-west) {scope marker={otamber}{1}};
+  \fill[otamber] ($(s-grid-north-west)!.5!(s-grid-north-east)$) -- ++(-.1,.12) -- ++(.2,0) -- cycle;
+\end{tikzpicture}
+\end{document}
