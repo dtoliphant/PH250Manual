@@ -1,0 +1,20 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Current in a coil produces a magnetic field along its axis
+  \path[fill=otgray!12,draw=otgray!50,line width=.6pt] (-2,-.6) rectangle (2,.6);
+  \draw[otgray!50,line width=.6pt,fill=otgray!20] (-2,0) ellipse (.2 and .6);
+  \draw[otblue,line width=1pt,-{Latex[length=2.5mm]}] (3.3,0) -- (-3.9,0);
+  \draw[otblue,line width=1pt,-{Latex[length=2.5mm]}] (3.3,1.0) .. controls (2.2,.3) and (1,.3) .. (0,.3) -- (-2.2,.3) .. controls (-3,.3) and (-3.4,1.0) .. (-3.9,1.35);
+  \draw[otblue,line width=1pt,-{Latex[length=2.5mm]}] (3.3,-1.0) .. controls (2.2,-.3) and (1,-.3) .. (0,-.3) -- (-2.2,-.3) .. controls (-3,-.3) and (-3.4,-1.0) .. (-3.9,-1.35);
+  \foreach \x in {-1.5,-.75,0,.75,1.5}{
+    \draw[otamber!45,line width=1.6pt] (\x-.12,.62) -- (\x+.12,-.62);
+    \draw[otamber,line width=2pt] (\x+.12,-.62) .. controls (\x+.35,-.2) and (\x+.3,.5) .. (\x+.63,.62);}
+  \draw[otamber,line width=2pt] (-1.62,.62) -- (-1.62,1.6);
+  \draw[otamber,line width=2pt] (2.13,.62) -- (2.13,1.6);
+  \draw[flow,draw=otorange] (-1.9,1.5) -- (-1.9,.9) node[midway,left,label] {$I$};
+  \draw[flow,draw=otorange] (2.4,.9) -- (2.4,1.5) node[midway,right,label] {$I$};
+  \node[label,text=otblue] at (-3.7,.9) {$\vec{B}$};
+\end{tikzpicture}
+\end{document}

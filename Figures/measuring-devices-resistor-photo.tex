@@ -1,0 +1,9 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/breadboard-parts-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % The chapter's example resistor: yellow-orange-red-black-brown = 432 ohm, 1%
+  \pic {banded resistor={yellow!85!orange}{orange}{red!80!black}{black}{brown!70!black}};
+\end{tikzpicture}
+\end{document}

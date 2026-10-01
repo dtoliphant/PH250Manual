@@ -1,0 +1,117 @@
+% Reusable high-fidelity solderless protoboard component.
+% Usage: \input{protoboard-pic.tex} then \pic (board) {protoboard};
+%   \pic (board) {protoboard={<rail colours 0/1>}{<rail jumpers 0/1>}};  (default {1}{1})
+%   \pic at (board-origin) {protoboard connections};  overlays the hidden
+%   metal strips (place it at the same point as the board).
+% Named anchors include (board-west/east/north/south),
+% (board-top-plus-1)..(board-top-plus-32), and similarly
+% top-minus, bottom-plus, bottom-minus, upper-1-1..upper-5-32,
+% and lower-1-1..lower-5-32.
+
+% OpenTikZ-compatible named palette.  The positive-rail color is adjusted
+% from orange to the red used in the source teaching figure.
+\providecolor{otblue}{HTML}{0072B2}
+\providecolor{otorange}{HTML}{D62839}
+\providecolor{otteal}{HTML}{009E73}
+\providecolor{otpurple}{HTML}{CC79A7}
+\providecolor{otgray}{HTML}{292929}
+
+\tikzset{
+  pics/protoboard/.default={1}{1},
+  pics/protoboard/.style 2 args={
+    code={
+      \def\pbWidth{14.00}
+      \def\pbHeight{5.45}
+      \def\pbFirstX{0.72}
+      \def\pbPitch{0.411}
+
+      % Soft cast shadow and molded plastic body.
+      \path[fill=otgray!18,rounded corners=0.06cm]
+        (0.09,-0.09) rectangle (\pbWidth+0.09,\pbHeight-0.09);
+      \path[fill=otgray!2,draw=otgray,line width=0.75pt,rounded corners=0.05cm]
+        (0,0) rectangle (\pbWidth,\pbHeight);
+      \draw[draw=otgray!35,line width=0.35pt,rounded corners=0.035cm]
+        (0.12,0.12) rectangle (\pbWidth-0.12,\pbHeight-0.12);
+
+      % Shallow molded channels separating rails and terminal strips.
+      \draw[draw=otgray!22,line width=0.35pt] (0.55,4.43) -- (\pbWidth-0.10,4.43);
+      \draw[draw=otgray!22,line width=0.35pt] (0.55,1.08) -- (\pbWidth-0.10,1.08);
+      \path[fill=otgray!6] (0.55,2.58) rectangle (\pbWidth-0.10,2.78);
+      \draw[draw=otgray!28,line width=0.32pt] (0.55,2.58) -- (\pbWidth-0.10,2.58);
+      \draw[draw=otgray!28,line width=0.32pt] (0.55,2.78) -- (\pbWidth-0.10,2.78);
+
+      % Continuous color coding and left-side jumpers linking matching rails.
+      \ifnum#1=1
+      \draw[draw=otorange,line width=1.05pt]
+        (\pbFirstX,5.08) -- (\pbWidth-0.10,5.08);
+      \draw[draw=otblue,line width=1.05pt]
+        (\pbFirstX,4.65) -- (\pbWidth-0.10,4.65);
+      \draw[draw=otorange,line width=1.05pt]
+        (\pbFirstX,0.84) -- (\pbWidth-0.10,0.84);
+      \draw[draw=otblue,line width=1.05pt]
+        (\pbFirstX,0.40) -- (\pbWidth-0.10,0.40);
+      \fi
+      \ifnum#2=1
+      \draw[draw=otorange,line width=1.15pt,line cap=round]
+        (\pbFirstX,5.08)
+        .. controls (0.13,4.88) and (0.07,4.40) .. (0.07,3.74)
+        -- (0.07,1.63)
+        .. controls (0.07,1.20) and (0.27,0.96) .. (\pbFirstX,0.84);
+      \draw[draw=otblue,line width=1.15pt,line cap=round]
+        (\pbFirstX,4.65)
+        .. controls (0.31,4.46) and (0.20,4.05) .. (0.20,3.54)
+        -- (0.20,1.84)
+        .. controls (0.20,1.20) and (0.38,0.68) .. (\pbFirstX,0.40);
+      \fi
+
+      % Hole glyph: gray bevel behind a dark vertical contact slot.
+      \foreach \column in {1,...,32}{
+        \pgfmathsetmacro{\holeX}{\pbFirstX+(\column-1)*\pbPitch}
+
+        % Four power-rail contact holes.
+        \foreach \rail/\railY in {top-plus/5.08,top-minus/4.65,bottom-plus/0.84,bottom-minus/0.40}{
+          \path[fill=otgray!28,rounded corners=0.018cm]
+            (\holeX-0.052,\railY-0.073) rectangle (\holeX+0.052,\railY+0.073);
+          \path[fill=otgray!92,rounded corners=0.013cm]
+            (\holeX-0.031,\railY-0.052) rectangle (\holeX+0.031,\railY+0.052);
+          \coordinate (-\rail-\column) at (\holeX,\railY);
+        }
+
+        % Two banks of five electrically common terminal holes.
+        \foreach \row/\upperY/\lowerY in {1/4.05/2.27,2/3.81/2.03,3/3.57/1.79,4/3.33/1.55,5/3.09/1.31}{
+          \path[fill=otgray!28,rounded corners=0.018cm]
+            (\holeX-0.055,\upperY-0.077) rectangle (\holeX+0.055,\upperY+0.077);
+          \path[fill=otgray!94,rounded corners=0.013cm]
+            (\holeX-0.032,\upperY-0.055) rectangle (\holeX+0.032,\upperY+0.055);
+          \path[fill=otgray!28,rounded corners=0.018cm]
+            (\holeX-0.055,\lowerY-0.077) rectangle (\holeX+0.055,\lowerY+0.077);
+          \path[fill=otgray!94,rounded corners=0.013cm]
+            (\holeX-0.032,\lowerY-0.055) rectangle (\holeX+0.032,\lowerY+0.055);
+          \coordinate (-upper-\row-\column) at (\holeX,\upperY);
+          \coordinate (-lower-\row-\column) at (\holeX,\lowerY);
+        }
+      }
+
+      % Stable component anchors for composition in later figures.
+      \coordinate (-west) at (0,0.5*\pbHeight);
+      \coordinate (-east) at (\pbWidth,0.5*\pbHeight);
+      \coordinate (-north) at (0.5*\pbWidth,\pbHeight);
+      \coordinate (-south) at (0.5*\pbWidth,0);
+      \coordinate (-center) at (0.5*\pbWidth,0.5*\pbHeight);
+      \coordinate (-origin) at (0,0);
+    }
+  },
+  % Hidden metal strips: each five-hole column group and each full-length rail.
+  pics/protoboard connections/.style={
+    code={
+      \foreach \c in {1,...,32}{
+        \pgfmathsetmacro{\holeX}{0.72+(\c-1)*0.411+0.07}
+        \draw[draw=otorange,line width=0.65pt,line cap=round] (\holeX,4.05) -- (\holeX,3.09);
+        \draw[draw=otorange,line width=0.65pt,line cap=round] (\holeX,2.27) -- (\holeX,1.31);
+      }
+      \foreach \railY in {5.08,4.65,0.84,0.40}{
+        \draw[draw=otorange,line width=0.65pt,line cap=round] (0.72,\railY) -- (13.461,\railY);
+      }
+    }
+  },
+}

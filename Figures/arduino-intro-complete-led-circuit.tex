@@ -1,0 +1,20 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/protoboard-pic.tex}
+\input{Reusable_TikZ/arduino-uno-pic.tex}
+\input{Reusable_TikZ/breadboard-parts-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (board) at (0,2.898) {protoboard={0}{1}};
+  \pic at (board-upper-5-17) {vertical led=0.82};
+  \pic at (board-lower-3-17) {vertical resistor=1.39};
+  \draw[redwire] (board-top-plus-8) .. controls (5.26,7) and (5.26,8) .. (board-upper-3-17);
+  \pic[scale=.635,transform shape] (uno) at (5.78,-0.41) {arduino uno};
+  % Pin-13 lead runs round the board edge so it crosses no other wire.
+  \draw[redwire] (uno-d13)-- ++(0,.428) .. controls (10,3) and (10.57,4) .. (board-top-plus-28);
+  \draw[blackwire] (uno-gnd-digital) -- ++(0,.428) -- (board-bottom-minus-5);
+  \draw[usb cable] (uno-usb) -- ++(-.428,0) .. controls (1.035,2.105) and (-.552,2.76) .. (-1.173,3.278);
+  \draw[usb cable core] (uno-usb) -- ++(-.428,0) .. controls (1.035,2.105) and (-.552,2.76) .. (-1.173,3.278);
+  \node[callout text,anchor=south east] at (-.794,3.485) {To computer};
+\end{tikzpicture}
+\end{document}

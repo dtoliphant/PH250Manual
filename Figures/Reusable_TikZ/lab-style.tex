@@ -1,0 +1,63 @@
+% PH 250 lab-manual figure style: colours and drawing styles shared by every
+% figure.  It does not \input anything; each figure inputs this file and then
+% the component files it uses, e.g.
+%
+%   \documentclass[tikz,border=5pt]{standalone}
+%   \input{Reusable_TikZ/lab-style.tex}
+%   \input{Reusable_TikZ/oscilloscope-pic.tex}
+%
+% (Figures inside Reusable_TikZ drop the folder name from the paths.)
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing}
+
+% Okabe--Ito colour-blind-safe palette.  otorange is the RED used for positive
+% leads, jumpers, LEDs and plotted curves.
+\definecolor{otblue}{HTML}{0072B2}
+\definecolor{otorange}{HTML}{D62839}
+\definecolor{otamber}{HTML}{E69F00}
+\definecolor{otteal}{HTML}{009E73}
+\definecolor{otyellow}{HTML}{D9A400}
+\definecolor{otpurple}{HTML}{CC79A7}
+\definecolor{otsky}{HTML}{56B4E9}
+\definecolor{otgray}{HTML}{292929}
+
+\tikzset{
+  % --- wires and leads -------------------------------------------------------
+  line/.style={draw=otgray,line width=1.1pt,line cap=round,line join=round},
+  wire/.style={draw=otgray,line width=1.1pt,line cap=round,line join=round},
+  redwire/.style={draw=otorange,line width=1.6pt,line cap=round,line join=round},
+  blackwire/.style={draw=otgray,line width=1.65pt,line cap=round,line join=round},
+  bluewire/.style={draw=otblue,line width=1.55pt,line cap=round,line join=round},
+  yellowwire/.style={draw=otyellow,line width=1.55pt,line cap=round,line join=round},
+  hiddenconnection/.style={draw=otorange,line width=0.65pt,line cap=round},
+  usb cable/.style={draw=otgray,line width=4.2pt,line cap=round},
+  usb cable core/.style={draw=otgray!15,line width=1.25pt,line cap=round},
+  % --- annotation ------------------------------------------------------------
+  label/.style={font=\sffamily\small,text=otgray,align=center},
+  tinylabel/.style={font=\sffamily\scriptsize,text=otgray,align=center},
+  callout text/.style={font=\sffamily\small,text=otgray,align=center},
+  tiny text/.style={font=\sffamily\scriptsize,text=otgray,align=center},
+  title/.style={font=\sffamily\bfseries,text=otgray},
+  callout/.style={draw=otblue,line width=.8pt,-{Latex[length=2mm]},line cap=round},
+  flow/.style={draw=otblue,line width=1.2pt,-{Latex[length=2.5mm]}},
+  dimension/.style={draw=otblue,line width=.9pt,{Latex[length=2mm]}-{Latex[length=2mm]}},
+  step number/.style={circle,draw=otorange,text=otorange,line width=.8pt,
+    font=\sffamily\scriptsize\bfseries,inner sep=0pt,minimum size=4.2mm},
+  % --- schematics (with schematic-pic.tex) -----------------------------------
+  circuit wire/.style={draw=otgray,line width=1.1pt,line cap=round,line join=round},
+  junction/.style={circle,fill=otgray,inner sep=0pt,minimum size=1.6mm},
+  pin/.style={circle,draw=otgray,fill=white,line width=1pt,minimum size=2.4mm,inner sep=0pt},
+  pin label/.style={font=\sffamily\small,text=otgray},
+  redprobe/.style={draw=otorange,line width=1.1pt},
+  blackprobe/.style={draw=otgray,line width=1.1pt},
+  % --- graphs ----------------------------------------------------------------
+  graph axis/.style={draw=otgray,line width=.8pt,-{Latex[length=2mm]}},
+  graph frame/.style={draw=otgray,line width=.7pt},
+  graph grid/.style={draw=otgray!18,line width=.35pt},
+  graph tick/.style={draw=otgray,line width=.6pt},
+  tick label/.style={font=\sffamily\scriptsize,text=otgray},
+  curve/.style={draw=otorange,line width=1.4pt},
+  model/.style={draw=otteal,line width=1.4pt},
+  guide/.style={draw=otblue,dashed,line width=.8pt},
+  data point/.style={circle,fill=otorange,inner sep=0pt,minimum size=1.7mm},
+}

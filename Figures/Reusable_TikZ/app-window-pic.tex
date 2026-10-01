@@ -1,0 +1,45 @@
+% Reusable desktop application window (Arduino IDE, Serial Monitor, Serial
+% Plotter...).  The top-left corner of the window is at the pic origin.
+% Usage:
+%   \input{Reusable_TikZ/app-window-pic.tex}
+%   \pic (w) {app window={9}{5.5}{COM6 (Arduino Uno)}{File\quad Edit\quad Tools}};
+% Arguments: width, height, title, menu-bar text (may be empty).
+% Anchors: body-north-west, body-north-east, body-south-west, body-south-east,
+%   body-center, menu-west, title, north, south, east, west, center.
+% The body starts 0.78 below the top edge (title bar 0.42 + menu bar 0.36).
+\providecolor{otteal}{HTML}{009E73}
+\providecolor{otgray}{HTML}{292929}
+
+\tikzset{
+  pics/app window/.style n args={4}{
+    code={
+      % shadow, frame and title bar
+      \path[fill=otgray!18,rounded corners=.08cm] (.08,-#2-.08) rectangle (#1+.08,-.08);
+      \path[fill=white,draw=otgray!80,line width=.7pt,rounded corners=.08cm] (0,-#2) rectangle (#1,0);
+      \path[fill=otgray!12,rounded corners=.08cm] (0,-.42) rectangle (#1,0);
+      \path[fill=otgray!12] (0,-.42) rectangle (#1,-.21);
+      \path[fill=otteal!70] (.16,-.28) rectangle (.30,-.14);
+      \node[font=\sffamily\scriptsize,text=otgray,anchor=west] at (.38,-.21) {#3};
+      \draw[otgray,line width=.5pt] (#1-1.20,-.21) -- ++(.16,0);
+      \draw[otgray,line width=.5pt] (#1-.78,-.28) rectangle ++(.15,.15);
+      \draw[otgray,line width=.5pt] (#1-.34,-.29) -- ++(.16,.16) (#1-.34,-.13) -- ++(.16,-.16);
+      % menu bar
+      \path[fill=otteal!18] (0,-.78) rectangle (#1,-.42);
+      \draw[otgray!45,line width=.4pt] (0,-.42) -- (#1,-.42);
+      \node[font=\sffamily\scriptsize,text=otgray,anchor=west] at (.20,-.60) {#4};
+      % anchors
+      \coordinate (-title) at (.38,-.21);
+      \coordinate (-menu-west) at (.20,-.60);
+      \coordinate (-body-north-west) at (0,-.78);
+      \coordinate (-body-north-east) at (#1,-.78);
+      \coordinate (-body-south-west) at (0,-#2);
+      \coordinate (-body-south-east) at (#1,-#2);
+      \coordinate (-body-center) at (#1/2,-#2/2-.39);
+      \coordinate (-north) at (#1/2,0);
+      \coordinate (-south) at (#1/2,-#2);
+      \coordinate (-west) at (0,-#2/2);
+      \coordinate (-east) at (#1,-#2/2);
+      \coordinate (-center) at (#1/2,-#2/2);
+    }
+  },
+}

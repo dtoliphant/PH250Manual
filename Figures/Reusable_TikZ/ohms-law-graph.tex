@@ -1,0 +1,17 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Delta V vs I for an ohmic resistor: a straight line whose slope is R
+  \begin{scope}[xscale=9,yscale=1.3]
+    \draw[graph axis] (0,0) -- (.5,0) node[right,label] {$I$};
+    \draw[graph axis] (0,0) -- (0,2.35) node[above,label] {$\Delta V$};
+    \foreach \x/\t in {0/0,0.1/0.1,0.2/0.2,0.3/0.3,0.4/0.4}{
+      \draw[graph tick] (\x,0) -- ++(0,-.08) node[below,tick label] {\t};}
+    \foreach \y/\t in {1/1,2/2}{
+      \draw[graph tick] (0,\y) -- ++(-.08,0) node[left,tick label] {\t};}
+    \draw[curve] (0,0) -- (.4,2);
+    \node[label,anchor=west] at (.21,1.2) {slope $=R$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

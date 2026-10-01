@@ -1,0 +1,17 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic[rotate=90] (e) at (0,1.3) {ac source};
+  \pic (r) at (1.5,2.6) {resistor};
+  \pic[rotate=-90] (c) at (3,1.3) {capacitor};
+  \pic (l) at (1.5,0) {inductor};
+  \draw[circuit wire] (e-right) -- (0,2.6) -- (r-left) (r-right) -- (3,2.6) -- (c-left);
+  \draw[circuit wire] (c-right) -- (3,0) -- (l-right) (l-left) -- (0,0) -- (e-left);
+  \node[label,anchor=east] at (-.4,1.3) {$\mathcal{E}$};
+  \node[label,anchor=south] at (1.5,2.85) {$R$};
+  \node[label,anchor=west] at (3.35,1.3) {$C$};
+  \node[label,anchor=north] at (1.5,-.25) {$L$};
+\end{tikzpicture}
+\end{document}

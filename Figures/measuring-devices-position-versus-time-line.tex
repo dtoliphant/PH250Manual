@@ -1,0 +1,21 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % y = 0.5 t + 1  (0.6 cm per second, 0.5 cm per metre)
+  \begin{scope}[xscale=.6,yscale=.5]
+    \foreach \x in {2,4,...,10}{\draw[graph grid] (\x,0) -- (\x,8.2);}
+    \foreach \y in {2,4,6,8}{\draw[graph grid] (0,\y) -- (11.2,\y);}
+    \draw[graph axis] (0,0) -- (11.8,0) node[right,label] {$t$ (s)};
+    \draw[graph axis] (0,0) -- (0,8.8) node[above,label] {$y$ (m)};
+    \foreach \x/\t in {0/0,2/2,4/4,6/6,8/8,10/10}{
+      \draw[graph tick] (\x,0) -- ++(0,-.08) node[below,tick label] {\t};}
+    \foreach \y/\t in {2/2,4/4,6/6,8/8}{
+      \draw[graph tick] (0,\y) -- ++(-.08,0) node[left,tick label] {\t};}
+    \draw[curve] (0,1) -- (11,6.5);
+    \draw[guide,solid] (4,3) -- (6,3) -- (6,4);
+    \node[label,anchor=north] at (5,3) {2 s};
+    \node[label,anchor=west] at (6,3.5) {1 m};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

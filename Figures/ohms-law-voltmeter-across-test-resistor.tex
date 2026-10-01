@@ -1,0 +1,16 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic[rotate=90] (b) at (0,1.45) {battery};
+  \pic[rotate=90] (rt) at (3.4,1.45) {resistor};
+  \draw[circuit wire] (b-right) -- (0,2.9) -- (3.4,2.9) -- (rt-right);
+  \draw[circuit wire] (rt-left) -- (3.4,0) -- (0,0) -- (b-left);
+  \node[label,anchor=east] at (-.45,1.45) {Battery};
+  \node[label,anchor=east] at (2.95,1.45) {$R_{\mathrm{test}}$};
+  \pic (v) at (5.1,1.45) {meter={$\Delta V$}};
+  \draw[redprobe] (3.4,2.6) .. controls ++(.9,0) and ++(-.3,.4) .. ($(v-center)+(-.22,.2)$);
+  \draw[blackprobe] (3.4,.3) .. controls ++(.9,0) and ++(-.3,-.4) .. ($(v-center)+(-.22,-.2)$);
+\end{tikzpicture}
+\end{document}

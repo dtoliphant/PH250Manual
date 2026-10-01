@@ -1,0 +1,13 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/protoboard-pic.tex}
+\input{Reusable_TikZ/breadboard-parts-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (board) {protoboard={0}{1}};
+  \pic at (board-origin) {protoboard connections};
+  \pic at (board-upper-5-17) {vertical led=0.82};
+  \pic at (board-lower-3-17) {vertical resistor=1.39};
+  \draw[redwire] (board-top-plus-8) .. controls (4.65,5.95) and (6.20,5.15) .. (board-upper-3-17);
+\end{tikzpicture}
+\end{document}

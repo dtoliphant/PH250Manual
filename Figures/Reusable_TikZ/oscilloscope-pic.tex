@@ -1,0 +1,133 @@
+% Reusable two-channel digital oscilloscope (9.0 x 4.9, centred on the origin).
+% Usage:
+%   \input{Reusable_TikZ/oscilloscope-pic.tex}
+%   \pic (s) {oscilloscope={CH1 2.00V}{CH2 1.00V}{M 1.00ms}{8}};
+% Arguments: channel-1 readout, channel-2 readout, time readout, and the number
+% of vertical divisions (8 or 10).  Default {CH1 1.00V}{}{M 1.00ms}{8}.
+%
+% Drawing a trace: the graticule is 10 divisions wide; one division is 0.4
+% across and 0.4 (8 divisions) or 0.32 (10 divisions) high.  Work in divisions:
+%   \begin{scope}[shift={(s-screen-center)},xscale=.4,yscale=.4]
+%     \clip (-5,-4) rectangle (5,4);                     % (-5,-5)..(5,5) for 10
+%     \draw[otamber,line width=1.3pt] plot[domain=-5:5,samples=150] (\x,{2*sin(90*\x)});
+%   \end{scope}
+%   \pic at ($(s-screen-west)+(0,0)$) {scope marker={otamber}{1}};   % ground level
+% Anchors: screen-center, screen-west, screen-east, grid-north-west,
+%   grid-north-east, grid-south-west, grid-south-east, ch1, ch2, ext-trig,
+%   cal, cal-gnd, ch1-scale, ch2-scale, ch1-position, ch2-position,
+%   ch1-button, ch2-button, time-scale, horizontal-position, trigger-level,
+%   trigger-menu, softkeys, run-stop, autoset, power, ch1-readout,
+%   west, east, north, south, center.
+\providecolor{otorange}{HTML}{D62839}
+\providecolor{otamber}{HTML}{E69F00}
+\providecolor{otsky}{HTML}{56B4E9}
+\providecolor{otgray}{HTML}{292929}
+\providecolor{otscreen}{HTML}{15202B}
+
+\tikzset{
+  pics/oscilloscope/.default={CH1\enspace 1.00V}{}{M\enspace 1.00ms}{8},
+  pics/oscilloscope/.style n args={4}{
+    code={
+      % Body
+      \path[fill=otgray!18,rounded corners=.22cm] (-4.40,-2.55) rectangle (4.60,2.35);
+      \path[fill=otgray!10,draw=otgray,line width=.95pt,rounded corners=.22cm] (-4.50,-2.45) rectangle (4.50,2.45);
+      \draw[otgray!35,line width=.35pt,rounded corners=.16cm] (-4.36,-2.31) rectangle (4.36,2.31);
+      % Bezel, screen and graticule (10 x 8 or 10 x 10 divisions, 4.0 x 3.2)
+      \path[fill=otgray!85,draw=otgray,line width=.6pt,rounded corners=.08cm] (-4.15,-1.95) rectangle (0.65,2.20);
+      \path[fill=otscreen] (-3.90,-1.72) rectangle (0.40,2.02);
+      \foreach \i in {-5,...,5}{\draw[white!30!otscreen,line width=.3pt] (-1.75+\i*.4,-1.3) -- (-1.75+\i*.4,1.9);}
+      \ifnum#4=10
+        \foreach \j in {-5,...,5}{\draw[white!30!otscreen,line width=.3pt] (-3.75,.3+\j*.32) -- (.25,.3+\j*.32);}
+      \else
+        \foreach \j in {-4,...,4}{\draw[white!30!otscreen,line width=.3pt] (-3.75,.3+\j*.4) -- (.25,.3+\j*.4);}
+      \fi
+      \foreach \k in {-25,...,25}{\draw[white!45!otscreen,line width=.3pt] (-1.75+\k*.08,.25) -- (-1.75+\k*.08,.35);}
+      \foreach \k in {-20,...,20}{\draw[white!45!otscreen,line width=.3pt] (-1.80,.3+\k*.08) -- (-1.70,.3+\k*.08);}
+      \draw[white!55!otscreen,line width=.4pt] (-3.75,-1.3) rectangle (.25,1.9);
+      % Readouts under the graticule
+      \node[font=\sffamily\fontsize{4.4}{4.8}\selectfont,text=otamber,anchor=west] at (-3.85,-1.53) {#1};
+      \node[font=\sffamily\fontsize{4.4}{4.8}\selectfont,text=otsky,anchor=west] at (-2.65,-1.53) {#2};
+      \node[font=\sffamily\fontsize{4.4}{4.8}\selectfont,text=white!85,anchor=west] at (-1.40,-1.53) {#3};
+      \node[font=\sffamily\bfseries\fontsize{4.2}{4.6}\selectfont,text=otgray,anchor=west] at (-3.70,-2.15) {DIGITAL STORAGE OSCILLOSCOPE};
+      % Soft keys and top-row buttons
+      \foreach \y in {1.75,1.25,.75,.25,-.25,-.75}{
+        \path[fill=otgray!30,draw=otgray,line width=.45pt,rounded corners=.04cm] (.81,\y-.15) rectangle (1.15,\y+.15);}
+      \foreach \x/\w/\c/\t in {1.66/.62/otgray!30/AUTO,2.46/.78/otorange!45/{RUN/STOP},3.34/.78/otgray!30/MEASURE,4.06/.50/otgray!30/MENU}{
+        \path[fill=\c,draw=otgray,line width=.45pt,rounded corners=.04cm] (\x-\w/2,1.85) rectangle (\x+\w/2,2.11);
+        \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (\x,1.98) {\t};}
+      % Control sections
+      \draw[otgray!45,line width=.45pt,rounded corners=.06cm] (1.35,-.55) rectangle (3.02,1.62);
+      \draw[otgray!45,line width=.45pt,rounded corners=.06cm] (3.12,-.55) rectangle (4.32,1.62);
+      \node[font=\sffamily\bfseries\fontsize{4.2}{4.6}\selectfont,text=otgray] at (2.185,1.50) {VERTICAL};
+      \node[font=\sffamily\bfseries\fontsize{4.2}{4.6}\selectfont,text=otgray] at (3.72,1.50) {HORIZ\quad TRIG};
+      % Knobs: x / y / radius / pointer angle
+      \foreach \x/\y/\r/\a in {1.75/1.12/.13/110, 2.62/1.12/.13/80, 1.75/.05/.30/120, 2.62/.05/.30/60,
+                               3.40/1.12/.13/95, 4.04/1.12/.17/140, 3.40/.05/.30/100}{
+        \fill[otgray!25] (\x+.03,\y-.03) circle (\r);
+        \path[fill=otgray!70,draw=otgray,line width=.6pt] (\x,\y) circle (\r);
+        \path[fill=otgray!45,draw=otgray!80,line width=.35pt] (\x,\y) circle ({.72*\r});
+        \draw[otgray!5,line width=.9pt,line cap=round] (\x,\y) -- ++(\a:{.66*\r});}
+      \foreach \x/\c/\t in {1.75/otamber!70/CH1,2.62/otsky!70/CH2}{
+        \path[fill=\c,draw=otgray,line width=.45pt,rounded corners=.04cm] (\x-.21,.60) rectangle (\x+.21,.84);
+        \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (\x,.72) {\t};}
+      \path[fill=otgray!30,draw=otgray,line width=.45pt,rounded corners=.04cm] (3.82,.48) rectangle (4.26,.72);
+      \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (4.04,.60) {TRIG};
+      \foreach \x/\t in {1.75/{VOLTS/DIV},2.62/{VOLTS/DIV},3.40/{SEC/DIV}}{
+        \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (\x,-.42) {\t};}
+      \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (4.04,.86) {LEVEL};
+      % BNC inputs: x / ring colour / label
+      \foreach \x/\c/\t in {1.75/otamber/CH1,2.62/otsky/CH2,3.52/otgray/EXT TRIG}{
+        \path[fill=\c!25,draw=\c,line width=.9pt] (\x,-1.30) circle (.20);
+        \path[fill=otgray!55,draw=otgray,line width=.5pt] (\x,-1.30) circle (.13);
+        \fill[otgray!90] (\x,-1.30) circle (.045);
+        \draw[otgray,line width=.6pt] (\x-.17,-1.20) -- ++(-.06,.035) (\x+.17,-1.40) -- ++(.06,-.035);
+        \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray] at (\x,-1.68) {\t};}
+      % Probe-compensation (calibration) tabs and power switch
+      \path[fill=otgray!45,draw=otgray,line width=.45pt] (4.10,-1.02) rectangle (4.20,-.80);
+      \path[fill=otgray!45,draw=otgray,line width=.45pt] (4.10,-1.60) rectangle (4.20,-1.38);
+      \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray,anchor=east] at (4.07,-.91) {5V CAL};
+      \node[font=\sffamily\fontsize{4.2}{4.6}\selectfont,text=otgray,anchor=east] at (4.07,-1.49) {GND};
+      \path[fill=otgray!45,draw=otgray,line width=.45pt,rounded corners=.04cm] (-4.14,-2.26) rectangle (-3.90,-2.08);
+      % Anchors
+      \coordinate (-screen-center) at (-1.75,.30);
+      \coordinate (-screen-west) at (-3.75,.30);
+      \coordinate (-screen-east) at (.25,.30);
+      \coordinate (-grid-north-west) at (-3.75,1.9);
+      \coordinate (-grid-north-east) at (.25,1.9);
+      \coordinate (-grid-south-west) at (-3.75,-1.3);
+      \coordinate (-grid-south-east) at (.25,-1.3);
+      \coordinate (-ch1-readout) at (-3.45,-1.53);
+      \coordinate (-softkeys) at (.98,.50);
+      \coordinate (-autoset) at (1.66,1.98);
+      \coordinate (-run-stop) at (2.46,1.98);
+      \coordinate (-ch1-position) at (1.75,1.12);
+      \coordinate (-ch2-position) at (2.62,1.12);
+      \coordinate (-ch1-button) at (1.75,.72);
+      \coordinate (-ch2-button) at (2.62,.72);
+      \coordinate (-ch1-scale) at (1.75,.05);
+      \coordinate (-ch2-scale) at (2.62,.05);
+      \coordinate (-horizontal-position) at (3.40,1.12);
+      \coordinate (-trigger-level) at (4.04,1.12);
+      \coordinate (-trigger-menu) at (4.04,.60);
+      \coordinate (-time-scale) at (3.40,.05);
+      \coordinate (-ch1) at (1.75,-1.30);
+      \coordinate (-ch2) at (2.62,-1.30);
+      \coordinate (-ext-trig) at (3.52,-1.30);
+      \coordinate (-cal) at (4.15,-.80);
+      \coordinate (-cal-gnd) at (4.15,-1.38);
+      \coordinate (-power) at (-4.02,-2.17);
+      \coordinate (-west) at (-4.50,0);
+      \coordinate (-east) at (4.50,0);
+      \coordinate (-north) at (0,2.45);
+      \coordinate (-south) at (0,-2.45);
+      \coordinate (-center) at (0,0);
+    }
+  },
+  % Channel ground-level marker; place it on the screen's left edge.
+  pics/scope marker/.style 2 args={
+    code={
+      \path[fill=#1] (0,0) -- (-.08,.09) -- (-.26,.09) -- (-.26,-.09) -- (-.08,-.09) -- cycle;
+      \node[font=\sffamily\bfseries\fontsize{4}{4}\selectfont,text=otscreen] at (-.15,0) {#2};
+    }
+  },
+}

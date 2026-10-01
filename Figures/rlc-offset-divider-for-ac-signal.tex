@@ -1,0 +1,23 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Fixing one end at +5 V shifts a -5..+5 V signal into the 0..5 V range
+  \pic[rotate=90] (r1) at (0,3) {resistor};
+  \pic[rotate=90] (r2) at (0,1) {resistor};
+  \draw[circuit wire] (0,4) -- (r1-right) (r1-left) -- (r2-right) (r2-left) -- (0,0);
+  \node[junction] at (0,4) {};
+  \node[junction] at (0,0) {};
+  \node[junction] at (0,2) {};
+  \draw[circuit wire] (0,2) -- (1.6,2);
+  \node[pin] at (1.6,2) {};
+  \node[pin label,anchor=west] at (1.75,2) {A0};
+  \node[label,anchor=west] at (.3,3) {$R_1$};
+  \node[label,anchor=west] at (.3,1) {$R_2$};
+  \node[label,anchor=east] at (-.3,4) {from the power supply};
+  \node[label,anchor=west] at (.3,4) {$+5$ V};
+  \node[label,anchor=east] at (-.3,0) {from the signal generator};
+  \node[label,anchor=west] at (.3,0) {$\pm 5$ V};
+\end{tikzpicture}
+\end{document}

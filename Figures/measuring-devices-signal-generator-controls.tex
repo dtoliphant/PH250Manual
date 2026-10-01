@@ -1,0 +1,24 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/signal-generator-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (fg) {signal generator={100.0}{Hz}};
+  \node[label,anchor=south] (wf) at (-1.6,2.1) {waveform select};
+  \draw[callout] (wf.south) -- ($(fg-waveform)+(-.1,.2)$);
+  \node[label,anchor=south] (rg) at (1.6,2.1) {frequency range select};
+  \draw[callout] (rg.south) -- ($(fg-range)+(0,.2)$);
+  \node[label,anchor=south] (on) at (4.6,2.1) {output on\\button};
+  \draw[callout] (on.south) -- ($(fg-output-button)+(.1,.2)$);
+  \node[label,anchor=east] (pw) at (-4.4,-1.1) {power\\button};
+  \draw[callout] (pw.east) -- ($(fg-power)+(-.18,0)$);
+  \node[label,anchor=north] (fq) at (-2.6,-2.0) {frequency\\adjust};
+  \draw[callout] (fq.north) -- ($(fg-frequency)+(0,-.72)$);
+  \node[label,anchor=north] (am) at (-.3,-2.0) {amplitude\\adjust};
+  \draw[callout] (am.north) -- ($(fg-amplitude)+(0,-.60)$);
+  \node[label,anchor=north] (ts) at (1.95,-2.0) {timing\\signal out};
+  \draw[callout] (ts.north) -- ($(fg-sync)+(0,-.55)$);
+  \node[label,anchor=west] (so) at (4.4,-.55) {signal out};
+  \draw[callout] (so.west) -- ($(fg-output)+(.24,0)$);
+\end{tikzpicture}
+\end{document}

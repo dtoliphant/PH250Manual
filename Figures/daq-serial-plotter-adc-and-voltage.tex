@@ -1,0 +1,21 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/app-window-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % ADC counts (~280) and voltage (~1.37 V) share one axis, so the voltage trace is flat.
+  \pic (w) {app window={9.6}{5.4}{COM6 (Arduino Uno) -- Serial Plotter}{}};
+  \draw[otblue,line width=1pt] (6.30,-1.05) -- ++(.35,0) node[right,font=\sffamily\tiny,text=otgray] {A2D};
+  \draw[otorange,line width=1pt] (7.55,-1.05) -- ++(.35,0) node[right,font=\sffamily\tiny,text=otgray] {voltage};
+  \begin{scope}[shift={(1.0,-4.85)},xscale=.0162,yscale=0.01000]
+    \draw[graph frame] (0,0) rectangle (500,340);
+    \foreach \x in {100,200,300,400}{\draw[graph grid] (\x,0) -- (\x,340);}
+    \foreach \x in {0,100,...,500}{\node[tick label,below] at (\x,0) {\x};}
+    \foreach \y/\t in {20/0,120/100,220/200,320/300}{
+      \draw[graph grid] (0,\y) -- (500,\y);
+      \node[tick label,left] at (0,\y) {\t};}
+    \draw[draw=otblue,line width=1pt] plot[domain=0:500,samples=160] (\x,{(280+2*sin(11*\x)+1.5*sin(29*\x))--20});
+    \draw[draw=otorange,line width=1pt] plot[domain=0:500,samples=160] (\x,{(1.37+.01*sin(11*\x))--20});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

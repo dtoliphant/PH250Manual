@@ -1,0 +1,14 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Capacitor voltage for a 5 V drive: f0 = 18 kHz, Q = 4 (x in kHz)
+  \begin{scope}[xscale=0.16,yscale=0.2]
+    \draw[graph axis] (0,0) -- (52.5,0) node[right,label] {frequency (Hz)};
+    \draw[graph axis] (0,0) -- (0,22) node[above,label] {$\Delta V_C$ (V)};
+    \foreach \x/\t in {0/0,10/10000,20/20000,30/30000,40/40000,50/50000}{\draw[graph tick] (\x,0) -- ++(0,-0.400) node[below,tick label] {\t};}
+    \foreach \y in {5,10,15,20}{\draw[graph tick] (0,\y) -- ++(-0.500,0) node[left,tick label] {\y};}
+    \draw[curve] plot[smooth,domain=0:50,samples=300] (\x,{5/sqrt((1-(\x/18)^2)^2+(\x/(18*4))^2)});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,10 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/oscilloscope-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (s) {oscilloscope={CH1 20.0V}{}{M 500us}{8}};
+  \node[label,anchor=west] (cal) at (5.1,.4) {calibration source\\(known 5 V\\square wave)};
+  \draw[callout] (cal.west) -- ($(s-cal)+(.15,.05)$);
+\end{tikzpicture}
+\end{document}

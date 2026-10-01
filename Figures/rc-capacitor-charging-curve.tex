@@ -1,0 +1,18 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Delta V_C = Delta V_battery (1 - e^{-t/RC});  battery 1.5 V, RC = 20 s
+  \begin{scope}[xscale=.085,yscale=2.3]
+    \draw[graph axis] (0,0) -- (78,0) node[right,label] {$t$ (s)};
+    \draw[graph axis] (0,0) -- (0,1.75) node[above,label] {$\Delta V_C$ (V)};
+    \foreach \x in {0,20,40,60}{\draw[graph tick] (\x,0) -- ++(0,-.04) node[below,tick label] {\x};}
+    \foreach \y/\t in {.5/0.5,1/1.0,1.5/1.5}{\draw[graph tick] (0,\y) -- ++(-1,0) node[left,tick label] {\t};}
+    \draw[guide] (0,1.5) -- (72,1.5);
+    \draw[guide] (0,.948) -- (72,.948);
+    \draw[curve] plot[smooth,domain=0:72,samples=60] (\x,{1.5*(1-exp(-\x/20))});
+    \node[label,anchor=south east] at (72,1.5) {battery voltage};
+    \node[label,anchor=north west] at (21,.93) {63\% at $t=RC$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

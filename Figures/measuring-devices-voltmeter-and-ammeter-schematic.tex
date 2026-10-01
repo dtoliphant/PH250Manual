@@ -1,0 +1,18 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Voltmeter across the resistor; ammeter replaces part of the bottom wire.
+  \pic[rotate=90] (b) at (0,1.3) {battery};
+  \pic[rotate=90] (r) at (3,1.3) {resistor};
+  \draw[circuit wire] (b-right) -- (0,2.6) -- (3,2.6) -- (r-right);
+  \draw[circuit wire] (r-left) -- (3,0) -- (2.3,0);
+  \draw[circuit wire] (b-left) -- (0,0) -- (.7,0);
+  \pic (a) at (1.5,-.8) {meter=A};
+  \draw[circuit wire] (.7,0) -- (.7,-.8) -- (a-left) (a-right) -- (2.3,-.8) -- (2.3,0);
+  \pic (v) at (4.6,1.3) {meter=V};
+  \draw[redprobe] (3,2.2) .. controls (3.7,2.2) and (4.1,2.0) .. ($(v-center)+(-.22,.2)$);
+  \draw[blackprobe] (3,.4) .. controls (3.7,.4) and (4.1,.6) .. ($(v-center)+(-.22,-.2)$);
+\end{tikzpicture}
+\end{document}

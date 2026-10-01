@@ -1,0 +1,40 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \path[fill=otgray!18,rounded corners=.08cm] (.10,-.10) rectangle (9.3,7.8);
+  \path[fill=otgray!3,draw=otgray,line width=.8pt,rounded corners=.07cm] (0,0) rectangle (9.2,7.9);
+  % Title and menu bars
+  \path[fill=otgray!18] (0,7.46) rectangle (9.2,7.9);
+  \node[font=\sffamily\scriptsize,text=otgray,anchor=west] at (.24,7.69) {Blink | Arduino IDE};
+  \path[fill=otgray!6] (0,7.06) rectangle (9.2,7.46);
+  \node[font=\sffamily\scriptsize,text=otgray,anchor=west] at (.28,7.26) {File\qquad Edit\qquad Sketch\qquad Tools\qquad Help};
+  % Toolbar
+  \path[fill=otblue!76] (0,6.08) rectangle (9.2,7.06);
+  \foreach \x in {.50,1.22,1.94,2.66,3.38}{\fill[otgray!8] (\x,6.57) circle (.25);}
+  \draw[otblue,line width=1.15pt] (.38,6.57) -- (.48,6.46) -- (.67,6.72);
+  \draw[otblue,line width=1.15pt,-{Latex[length=1.8mm]}] (1.06,6.57) -- (1.39,6.57);
+  \draw[otblue,line width=.85pt] (1.82,6.43) rectangle (2.06,6.68);
+  \draw[otblue,line width=.85pt] (2.55,6.43) rectangle (2.79,6.68);
+  \draw[otblue,line width=.85pt] (3.24,6.43) -- (3.50,6.43) -- (3.50,6.68) -- (3.24,6.68) -- cycle;
+  \node[font=\sffamily\bfseries\scriptsize,text=otgray!5,anchor=east] at (8.88,6.57) {ARDUINO};
+  % Tab and code editor
+  \path[fill=otgray!10,draw=otgray!35,line width=.35pt] (.20,5.67) rectangle (2.14,6.08);
+  \node[font=\ttfamily\scriptsize,text=otgray,anchor=west] at (.38,5.87) {Blink};
+  \node[font=\ttfamily\scriptsize,text=otgray,anchor=north west,align=left] at (.50,5.35)
+    {void setup() \{\\[.12cm]\ \ // put your setup code here, to run once:\\[.12cm]\}\\[.26cm]void loop() \{\\[.12cm]\ \ // put your main code here, to run repeatedly:\\[.12cm]\}};
+  \foreach \y/\n in {5.33/1,4.91/2,4.49/3,4.07/4,3.65/5,3.23/6}{
+    \node[font=\ttfamily\tiny,text=otgray!55,anchor=east] at (.34,\y) {\n};}
+  % Message console
+  \path[fill=otblue!74] (0,1.62) rectangle (9.2,2.03);
+  \node[font=\sffamily\scriptsize,text=otgray!5,anchor=west] at (.24,1.82) {Done uploading.};
+  \path[fill=otgray!92] (0,.38) rectangle (9.2,1.62);
+  \node[font=\ttfamily\tiny,text=otgray!8,anchor=north west,align=left] at (.28,1.42) {Sketch uses 928 bytes (2\%) of program storage space.\\Maximum is 32,256 bytes.};
+  \node[font=\sffamily\tiny,text=otgray,anchor=west] at (.22,.18) {Arduino Uno on COM3};
+  % Call-outs
+  \node[callout text,font=\sffamily\bfseries\small] at (.52,8.58) {Compile};
+  \draw[callout] (.52,8.30) -- (.52,6.90);
+  \node[callout text,font=\sffamily\bfseries\small] at (4.05,8.58) {Upload to Arduino};
+  \draw[callout] (3.45,8.30) .. controls (2.60,7.82) and (1.82,7.30) .. (1.25,6.87);
+\end{tikzpicture}
+\end{document}

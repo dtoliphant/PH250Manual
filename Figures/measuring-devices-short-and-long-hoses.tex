@@ -1,0 +1,16 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/analogy-pics.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic at (0,3) {faucet};
+  \draw[draw=otteal,line width=6pt,line cap=round] (0,3) .. controls (0,1.2) and (.2,.3) .. (.9,.3);
+  \pic at (.9,.3) {nozzle};
+  \node[label] at (.7,-.5) {short hose};
+  \pic at (4,3) {faucet};
+  \draw[draw=otteal,line width=6pt,line cap=round] (4,3) .. controls (4,.6) and (4.3,.2) .. (5.2,.2)
+    .. controls (6.3,.2) and (6.2,1.5) .. (5.4,1.5) .. controls (4.6,1.5) and (4.7,.3) .. (6.2,.3);
+  \pic at (6.2,.3) {nozzle};
+  \node[label] at (5.5,-.5) {long hose};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/arduino-uno-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic[scale=1.35,transform shape] (uno) {arduino uno};
+  \draw[redwire,line width=2.1pt] (uno-d13) -- ++(0,.62) -- (4.36,6.63);
+  \draw[blackwire,line width=2.1pt] (uno-gnd-digital) -- ++(0,.62) -- (0,6.71);
+  \node[callout text,anchor=west,font=\sffamily\bfseries\small] at (2.45,6.88) {Pin 13};
+  \draw[callout] (7.05,5.22) -- (uno-d13);
+  \node[callout text,anchor=west,font=\sffamily\bfseries\small] at (0.88,6.9) {Ground};
+  \draw[callout] (7.05,3.72) -- (uno-gnd-digital);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Example charging data (values read from the original sample plot)
+  \begin{scope}[xscale=.04,yscale=1.9,shift={(0,-.4)}]
+    \draw[graph frame] (0,.4) rectangle (190,2.45);
+    \foreach \x in {25,50,...,175}{\draw[graph grid] (\x,.4) -- (\x,2.45); \node[tick label,below] at (\x,.4) {\x};}
+    \foreach \y in {.5,.75,1,1.25,1.5,1.75,2,2.25}{\draw[graph grid] (0,\y) -- (190,\y); \node[tick label,left] at (0,\y) {\y};}
+    \foreach \x/\y in {10/0.5,20/0.75,30/0.97,40/1.14,50/1.28,60/1.42,70/1.53,80/1.62,90/1.72,100/1.8,110/1.87,120/1.95,130/2.02,140/2.1,150/2.16,160/2.22,170/2.28,180/2.34}{\node[data point] at (\x,\y) {};}
+    \node[label,anchor=north] at (95,.1) {time in seconds};
+    \node[label,rotate=90,anchor=south] at (-22,1.42) {voltage (V)};
+    \node[data point] at (12,2.3) {};
+    \node[tick label,anchor=west] at (15,2.3) {data};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

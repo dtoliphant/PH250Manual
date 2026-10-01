@@ -1,0 +1,22 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/oscilloscope-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % The voltage knob is set so the whole screen spans 2 V: -1 V to +1 V.
+  \pic (s) {oscilloscope={CH1 2.00V}{}{M 1.00ms}{8}};
+  \begin{scope}[shift={(s-screen-center)},xscale=.4,yscale=0.4]
+    \clip (-5,-4) rectangle (5,4);
+    \draw[otamber,line width=1.3pt] plot[domain=-5:5,samples=160] (\x,{2.4*sin(120*\x)});
+  \end{scope}
+  \pic at (s-screen-west) {scope marker={otamber}{1}};
+  \draw[otblue!35,dashed,line width=.5pt] (s-grid-north-west) -- ($(s-grid-north-west -| s-west)+(-.45,0)$);
+  \draw[otblue!35,dashed,line width=.5pt] (s-grid-south-west) -- ($(s-grid-south-west -| s-west)+(-.45,0)$);
+  \draw[dimension] ($(s-grid-north-west -| s-west)+(-.45,0)$) -- ($(s-grid-south-west -| s-west)+(-.45,0)$)
+    node[midway,left,label] {2 V};
+  \node[label,anchor=east] at ($(s-grid-north-west -| s-west)+(-.55,0)$) {$+1$ V};
+  \node[label,anchor=east] at ($(s-grid-south-west -| s-west)+(-.55,0)$) {$-1$ V};
+  \node[label,anchor=north] (vs) at (-1.2,-2.75) {voltage scale for\\channel 1 says 2 V};
+  \draw[callout] (vs.north) .. controls ++(0,.3) and ++(.3,-.4) .. ($(s-ch1-readout)+(.15,-.1)$);
+\end{tikzpicture}
+\end{document}

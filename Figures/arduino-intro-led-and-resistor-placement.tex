@@ -1,0 +1,11 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/protoboard-pic.tex}
+\input{Reusable_TikZ/breadboard-parts-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (board) {protoboard={0}{1}};
+  \pic at (board-upper-5-17) {vertical led=0.82};
+  \pic at (board-lower-3-17) {vertical resistor=1.39};
+\end{tikzpicture}
+\end{document}

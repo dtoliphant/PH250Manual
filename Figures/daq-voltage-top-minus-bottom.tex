@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic[rotate=90] (b) at (0,1.2) {battery};
+  \pic[rotate=90] (r) at (2.6,1.2) {resistor};
+  \draw[circuit wire] (b-right) -- (0,2.4) -- (2.6,2.4) -- (r-right);
+  \draw[circuit wire] (r-left) -- (2.6,0) -- (0,0) -- (b-left);
+  \node[label,anchor=east] at (-.45,1.2) {Battery};
+  \node[label,anchor=east] at (2.2,1.2) {Resistor};
+  \node[junction] at (2.6,2.4) {};
+  \node[junction] at (2.6,0) {};
+  \node[label,anchor=south west] at (2.6,2.4) {$V_{\mathrm{top}}$};
+  \node[label,anchor=north west] at (2.6,0) {$V_{\mathrm{bottom}}$};
+  \draw[dimension] (3.4,2.25) -- (3.4,.15);
+  \node[label,anchor=west] at (3.55,1.2) {$\Delta V = V_{\mathrm{top}} - V_{\mathrm{bottom}}$};
+\end{tikzpicture}
+\end{document}

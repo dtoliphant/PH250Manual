@@ -42,20 +42,23 @@ N=20
 #  name so it is easier to use in the code below
 #  This line worked for Brother Lines, but won't work for you as it is.
 #  You need to replace "rtlines" with your username at a minimum.
-dataFile=open('C:\\Users\\rtlines\\Documents\\data2.txt','w')
+dataFile=open('C:\\Users\\rtlines\\Documents\\data3.txt','w')
  
-#the next line opens the serial port for communication
-ser=serial.Serial('COM3', baudrate = 9600, timeout=1)
+#the next line opens the serial port for communication. You need to 
+#  set the COM port based on where the Arduino IDE says the Arduino
+#  is plugged into your computer. On Windows, this is usually COM1 
+#  through COM 8.
+ser=serial.Serial('COM6', baudrate = 9600, timeout=1)
  
 #there will be a delay before the first data point comes from the 
 #  serial port, warn the user so they don't worry.
-print('getting started...')
+print('\n getting started...\n')
  
 # set our index to zero
 i=0
  
  
-# Now for N points, collect data and write it to a file
+# Now for N points (set above), collect data and write it to a file
 while (i<N):    #Begin data collection loop
     #We will take data every "timeBetween" seconds. We need to know 
     #   when we start waiting so we can tell if it is time to collect 
@@ -68,26 +71,27 @@ while (i<N):    #Begin data collection loop
     #  the data as fast as it comes, but only save it every timeBetween
     #  seconds. The next while loop keeps us reading in data, but only 
     #  when the current time - waitStart >= timeBetweem will we use 
-    #  the data.
+    #  the data. All the data points inbetween get thrown away.
     while (time.time()-waitStart<timeBetween): #Begin Data read loop
          # Get data from the serial port
          # it should have a time and a voltage
          arduinoData=ser.readline().decode('ascii')
          # end of the Data read loop
          
-    # the next line just prints the voltage point on the console so the user 
-    # feels like something is happening.
+    # the next line just prints the time and voltageon the console 
+    #   so the user feels like something is happening.
     print(arduinoData)
-    # This next line writes combines the time since we started and the Arduino 
-    # value from the serial port into one string
+    # This next line makes sure our Arduino data is in a python 
+    #   string format
     writeString=str(arduinoData) #+ " \n"
-    # The next line writes our time plus Arduino value to the file.
+    # The next line writes our Arduino data value to the file.
     dataFile.write(writeString)
-    # and finely we increment the loop counter
+    # And finely we increment the loop counter so we can see if we have 
+    #  collected data N times adnd are ready to quit.
     i=i+1      # end Data collection loop   
     
 # Print out a message saying we are done
-print("done with data collection, closing the file and the serial port")
+print("done with data collection, closing the  file and the serial port")
 # Close the file
 dataFile.close()
 # Close the serial port   

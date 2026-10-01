@@ -1,0 +1,21 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/oscilloscope-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % CH1: signal generator (-5..+5 V).  CH2: divider output (0..5 V): same
+  % 2 V/div scale, shifted up and half as tall.
+  \pic (s) {oscilloscope={CH1 2.00V}{CH2 2.00V}{M 1.00ms}{8}};
+  \begin{scope}[shift={(s-screen-center)},xscale=.4,yscale=0.4]
+    \clip (-5,-4) rectangle (5,4);
+    \draw[otamber,line width=1.3pt] plot[domain=-5:5,samples=200] (\x,{2.5*sin(144*\x)});
+    \draw[otsky,line width=1.3pt] plot[domain=-5:5,samples=200] (\x,{-1.25+1.25*sin(144*\x)});
+  \end{scope}
+  \pic at (s-screen-west) {scope marker={otamber}{1}};
+  \pic at ($(s-screen-west)+(0,-1)$) {scope marker={otsky}{2}};
+  \node[label,anchor=east] (a) at (-5.0,1.4) {signal\\generator};
+  \draw[callout] (a.east) -- ($(s-screen-center)+(-1.55,.85)$);
+  \node[label,anchor=east] (b) at (-5.0,-.9) {divider\\output};
+  \draw[callout] (b.east) -- ($(s-screen-center)+(-1.95,-.72)$);
+\end{tikzpicture}
+\end{document}

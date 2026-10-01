@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic[rotate=90] (b) at (0,1.3) {battery};
+  \pic (c) at (1.6,2.6) {capacitor};
+  \pic[rotate=90] (r) at (3.2,1.3) {resistor};
+  \draw[circuit wire] (b-right) -- (0,2.6) -- (c-left);
+  \draw[circuit wire] (c-right) -- (3.2,2.6) -- (r-right);
+  \draw[circuit wire] (r-left) -- (3.2,0) -- (0,0) -- (b-left);
+  \node[label,anchor=east] at (-.4,1.3) {$\Delta V_{\mathrm{battery}}$};
+  \node[label,anchor=south] at (1.6,2.85) {$C$};
+  \node[label,anchor=west] at (3.5,1.3) {$R$};
+
+  \node[step number] at (1.0,3.25) {2};
+  \node[step number] at (2.2,3.25) {1};
+\end{tikzpicture}
+\end{document}

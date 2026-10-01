@@ -1,0 +1,104 @@
+% Reusable breadboard-scale parts.
+% Usage (inside the same scope as the protoboard so lengths match its holes):
+%   \pic at (board-upper-5-17) {vertical led=0.82};        % top hole, lead length
+%   \pic at (board-lower-3-17) {vertical resistor=1.39};
+%   \pic at (board-lower-4-12) {horizontal resistor=2.055}; % left hole, length
+%   \pic at (board-lower-2-9)  {vertical capacitor=0.48};
+% Large photo-style parts:
+%   \pic (r) {banded resistor={yellow}{orange}{red}{black}{brown}};  % 5 bands
+%       anchors r-left, r-right, r-band-1 .. r-band-5
+%   \pic[rotate=180] (c) at (x,y) {alligator clip=otorange};  anchor c-wire
+\providecolor{otorange}{HTML}{D62839}
+\providecolor{otpurple}{HTML}{CC79A7}
+\providecolor{otsky}{HTML}{56B4E9}
+\providecolor{otgray}{HTML}{292929}
+
+\tikzset{
+  % LED standing between two holes: lead down from the origin, body midway.
+  pics/vertical led/.style={
+    code={
+      \draw[draw=otgray,line width=0.75pt] (0,0) -- (0,-#1);
+      \path[fill=otorange!88,draw=otgray,line width=0.6pt] (0,-#1/2) ellipse (0.15cm and 0.27cm);
+      \draw[otgray!12,line width=0.55pt] ($(0,-#1/2)+(-.055cm,.15cm)$) arc[start angle=150,end angle=30,radius=.065cm];
+      \draw[otgray,line width=0.55pt] ($(0,-#1/2)+(-.13cm,-.235cm)$) -- ++(.26cm,0);
+      \coordinate (-top) at (0,0);
+      \coordinate (-bottom) at (0,-#1);
+    }
+  },
+  % Axial resistor standing between two holes (red / purple / black bands).
+  pics/vertical resistor/.style={
+    code={
+      \draw[draw=otgray,line width=0.72pt] (0,0) -- (0,-#1);
+      \path[fill=otgray!12,draw=otgray,line width=0.55pt,rounded corners=0.05cm]
+        ($(0,-#1/2)+(-.12cm,-.31cm)$) rectangle ($(0,-#1/2)+(.12cm,.31cm)$);
+      \draw[otorange,line width=1.1pt] ($(0,-#1/2)+(-.12cm,.16cm)$) -- ++(.24cm,0);
+      \draw[otpurple,line width=1.1pt] ($(0,-#1/2)+(-.12cm,0)$) -- ++(.24cm,0);
+      \draw[otgray,line width=1.1pt] ($(0,-#1/2)+(-.12cm,-.16cm)$) -- ++(.24cm,0);
+      \coordinate (-top) at (0,0);
+      \coordinate (-bottom) at (0,-#1);
+      \coordinate (-center) at (0,-#1/2);
+    }
+  },
+  % Axial resistor lying along a row (brown / black / black bands).
+  pics/horizontal resistor/.style={
+    code={
+      \draw[draw=otgray,line width=0.72pt] (0,0) -- (#1,0);
+      \path[fill=otgray!12,draw=otgray,line width=0.55pt,rounded corners=0.05cm]
+        ($(#1/2,0)+(-.31cm,-.12cm)$) rectangle ($(#1/2,0)+(.31cm,.12cm)$);
+      \foreach \dx in {-.16,0,.16}{
+        \draw[brown!70!black,line width=1.1pt] ($(#1/2,0)+(\dx cm,-.12cm)$) -- ++(0,.24cm);}
+      \coordinate (-left) at (0,0);
+      \coordinate (-right) at (#1,0);
+      \coordinate (-center) at (#1/2,0);
+    }
+  },
+  % Ceramic disc capacitor standing between two holes.
+  pics/vertical capacitor/.style={
+    code={
+      \draw[draw=otgray,line width=0.72pt] (0,0) -- (0,-#1);
+      \path[fill=otsky!45,draw=otgray,line width=0.55pt] (0,-#1/2) ellipse (0.15cm and 0.18cm);
+      \coordinate (-top) at (0,0);
+      \coordinate (-bottom) at (0,-#1);
+    }
+  },
+  % Large five-band resistor for the colour-code figures.
+  pics/banded resistor/.default={yellow!85!orange}{orange}{red!80!black}{black}{brown!70!black},
+  pics/banded resistor/.style n args={5}{
+    code={
+      \draw[otgray!55,line width=2.2pt,line cap=round] (-3.0,0) -- (3.0,0);
+      \path[fill=otsky!35,draw=otgray,line width=.8pt]
+        (-1.55,-.36) .. controls (-1.75,-.36) and (-1.75,.36) .. (-1.55,.36)
+        -- (-1.12,.36) .. controls (-.98,.36) and (-.95,.27) .. (-.80,.27)
+        -- (.80,.27) .. controls (.95,.27) and (.98,.36) .. (1.12,.36)
+        -- (1.55,.36) .. controls (1.75,.36) and (1.75,-.36) .. (1.55,-.36)
+        -- (1.12,-.36) .. controls (.98,-.36) and (.95,-.27) .. (.80,-.27)
+        -- (-.80,-.27) .. controls (-.95,-.27) and (-.98,-.36) .. (-1.12,-.36)
+        -- cycle;
+      \path[fill=#1] (-1.41,-.36) rectangle (-1.23,.36);
+      \path[fill=#2] (-1.01,-.27) rectangle (-.83,.27);
+      \path[fill=#3] (-.61,-.27) rectangle (-.43,.27);
+      \path[fill=#4] (-.21,-.27) rectangle (-.03,.27);
+      \path[fill=#5] (1.21,-.36) rectangle (1.39,.36);
+      \path[fill=white,opacity=.45] (-1.62,.16) rectangle (1.62,.24);
+      \coordinate (-band-1) at (-1.32,.36);
+      \coordinate (-band-2) at (-.92,.27);
+      \coordinate (-band-3) at (-.52,.27);
+      \coordinate (-band-4) at (-.12,.27);
+      \coordinate (-band-5) at (1.30,.36);
+      \coordinate (-left) at (-3.0,0);
+      \coordinate (-right) at (3.0,0);
+      \coordinate (-center) at (0,0);
+    }
+  },
+  % Spring-loaded alligator clip pointing along +x, jaws at the origin.
+  pics/alligator clip/.default=otorange,
+  pics/alligator clip/.style={
+    code={
+      \path[fill=#1!85,draw=otgray,line width=.5pt,rounded corners=1pt]
+        (.18,-.10) -- (.95,-.16) -- (.95,.16) -- (.18,.10) -- cycle;
+      \path[fill=otgray!35,draw=otgray,line width=.5pt] (0,0) -- (.24,.10) -- (.24,-.10) -- cycle;
+      \coordinate (-wire) at (.95,0);
+      \coordinate (-jaw) at (0,0);
+    }
+  },
+}

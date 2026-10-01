@@ -1,0 +1,22 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/power-supply-pic.tex}
+\input{Reusable_TikZ/protoboard-pic.tex}
+\input{Reusable_TikZ/breadboard-parts-pic.tex}
+\input{Reusable_TikZ/multimeter-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Power supply feeding one resistor on the protoboard
+  \pic[scale=.62,transform shape] (ps) at (0,1.2) {power supply={05.0}{0.02}};
+  \pic[scale=.42] (board) at (2.6,2.6) {protoboard={0}{0}};
+  \pic[scale=.42] at (board-upper-5-16) {vertical resistor=0.82};
+  \draw[redwire] (ps-plus) .. controls ++(1.4,-.3) and ++(0,-1.6) .. (board-upper-3-16);
+  \draw[blackwire] (ps-minus) .. controls ++(0,-.9) and ++(-.3,-1.9) .. (board-lower-4-16);
+
+  % Voltmeter probes on the five-hole groups at each end of the resistor
+  \pic[scale=.5,transform shape] (m) at (9.6,3.6) {multimeter={5.00}{V}{132}{1}};
+  \draw[redwire] (m-jack-vomega) .. controls ++(0,-1.0) and ++(.9,1.6) .. (board-upper-1-16);
+  \draw[blackwire] (m-jack-com) .. controls ++(0,-1.5) and ++(.5,-1.5) .. (board-lower-2-16);
+  \node[label,anchor=north] at (5.4,.1) {meter set to DC volts, probes on either end of the resistor};
+\end{tikzpicture}
+\end{document}

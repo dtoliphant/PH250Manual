@@ -1,0 +1,128 @@
+% Reusable high-fidelity four-jack digital multimeter component.
+% Usage:
+%   \input{Reusable_TikZ/multimeter-pic.tex}
+%   \pic (m) {multimeter={<reading>}{<unit>}{<dial angle>}{<model>}};
+%   e.g.  \pic (m) {multimeter={5.00}{V}{132}{1}};
+% Dial angles: 20 = 10 A, 48 = A, 76 = mA, 132 = DC volts, 188 = ohms,
+% 328 = off.  Model 1 is the grey meter; model 2 is the lab's second meter
+% (blue-grey body, current jack labelled "A").  Default {0.000}{}{132}{1}.
+% Wiring anchors: m-jack-10a, m-jack-ma, m-jack-com, m-jack-vomega (aliases
+% m-current, m-low-current, m-com, m-voltage); m-selector, m-screen.
+\providecolor{otblue}{HTML}{0072B2}
+\providecolor{otorange}{HTML}{D62839}
+\providecolor{otteal}{HTML}{009E73}
+\providecolor{otpurple}{HTML}{CC79A7}
+\providecolor{otgray}{HTML}{292929}
+
+\tikzset{
+  pics/multimeter/.default={0.000}{}{132}{1},
+  pics/multimeter/.style n args={4}{
+    code={
+      \def\mmReading{#1}
+      \def\mmUnit{#2}
+      \def\mmAngle{#3}
+      \def\mmW{3.55}
+      \def\mmH{6.20}
+
+      % Soft shadow, protective rubber boot, and recessed front panel.
+      \path[fill=otgray!18,rounded corners=.30cm]
+        (-1.69,-3.16) rectangle (1.86,3.04);
+      \ifnum#4=2
+        \path[fill=otblue!45!otgray,draw=otgray,line width=.95pt,rounded corners=.30cm]
+          (-1.78,-3.10) rectangle (1.78,3.10);
+      \else
+        \path[fill=otgray!88,draw=otgray,line width=.95pt,rounded corners=.30cm]
+          (-1.78,-3.10) rectangle (1.78,3.10);
+      \fi
+      \path[fill=otgray!18,draw=otgray!70,line width=.62pt,rounded corners=.20cm]
+        (-1.51,-2.88) rectangle (1.51,2.86);
+      \draw[otgray!45,line width=.38pt,rounded corners=.15cm]
+        (-1.39,-2.74) rectangle (1.39,2.72);
+      \foreach \y in {-2.45,-1.95,-1.45,1.75,2.25}{
+        \draw[otgray!62,line width=.42pt] (-1.72,\y)--(-1.55,\y);
+        \draw[otgray!62,line width=.42pt] (1.55,\y)--(1.72,\y);
+      }
+
+      % LCD bezel, segmented-style reading, polarity and unit fields.
+      \path[fill=otgray!92,draw=otgray,line width=.65pt,rounded corners=.08cm]
+        (-1.28,1.80) rectangle (1.28,2.68);
+      \path[fill=otblue!7,draw=otgray!68,line width=.43pt,rounded corners=.035cm]
+        (-1.12,1.95) rectangle (1.12,2.52);
+      \node[font=\sffamily\fontsize{4.0}{4.2}\selectfont,text=otgray,anchor=west]
+        at (-1.04,2.37) {DC};
+      \node[font=\ttfamily\bfseries\large,text=otgray] at (.05,2.20) {\mmReading};
+      \node[font=\sffamily\scriptsize,text=otgray,anchor=east] at (1.03,2.00) {\mmUnit};
+
+      % Branding and function buttons.
+      \node[font=\tiny\sffamily\bfseries, text=otgray] at (0,1.61) {DIGITAL MULTIMETER};
+      \foreach \x/\lab in {-.82/RANGE,0/HOLD,.82/SELECT}{
+        \path[fill=otgray!72,draw=otgray,line width=.36pt,rounded corners=.035cm]
+          (\x-.33,1.25) rectangle (\x+.33,1.51);
+        \node[font=\sffamily\fontsize{3.4}{3.8}\selectfont,text=otgray!2] at (\x,1.38) {\lab};
+      }
+
+      % Selector scale and mode labels.
+      \foreach \a/\lab in {
+        20/{10A},48/{A},76/{mA},104/{V\raisebox{.15ex}{$\scriptstyle\sim$}},
+        132/{V\raisebox{.3ex}{$\scriptscriptstyle\cdots$}},160/{mV},
+        188/{$\Omega$},216/{\raisebox{.1ex}{$\rightarrow\!|$}},
+        244/{Hz},272/{CAP},300/{TEMP},328/{OFF}}{
+        \node[font=\sffamily\fontsize{4.0}{4.2}\selectfont,text=otgray]
+          at (\a:1.18) {\lab};
+        \draw[otgray,line width=.38pt] (\a:0.94)--(\a:1.01);
+      }
+      \fill[otgray!82,draw=otgray,line width=.75pt] (0,0) circle (.78);
+      \fill[otgray!30,draw=otgray!75,line width=.50pt] (0,0) circle (.60);
+      \draw[otgray,line width=3.5pt,line cap=round]
+        (0,0)--(\mmAngle:.51);
+      \draw[otgray!8,line width=1.0pt,line cap=round]
+        (0,0)--(\mmAngle:.48);
+      \fill[otgray!88] (0,0) circle (.11);
+      \coordinate (-selector) at (0,0);
+
+      % Four protected input jacks in the order used by the laboratory meters.
+      \foreach \name/\x/\lab/\c in {
+        jack-10a/-1.08/{}/otorange,
+        jack-ma/-.36/{mA}/otorange,
+        jack-com/.36/{COM}/otgray,
+        jack-vomega/1.08/{V$\Omega$}/otorange}{
+        \fill[\c!18,draw=\c,line width=.82pt] (\x,-2.22) circle (.225);
+        \fill[otgray!94] (\x,-2.22) circle (.095);
+        \node[font=\sffamily\fontsize{4.1}{4.5}\selectfont,text=otgray,align=center]
+          at (\x,-2.62) {\lab};
+        \coordinate (-\name) at (\x,-2.22);
+      }
+      \node[font=\sffamily\fontsize{3.6}{4.0}\selectfont,text=otgray,align=center]
+        at (-0.7,-1.84) {FUSED};
+%      \node[font=\sffamily\fontsize{3.6}{4.0}\selectfont,text=otgray,align=center]
+%        at (0.7,-1.74) {CAT III};
+
+      \ifnum#4=2
+        \node[font=\sffamily\fontsize{4.1}{4.5}\selectfont,text=otgray] at (-1.08,-2.62) {A};
+      \else
+        \node[font=\sffamily\fontsize{4.1}{4.5}\selectfont,text=otgray] at (-1.08,-2.62) {10 A};
+      \fi
+
+      % Semantic electrical aliases.
+      \coordinate (-high-current) at (-1.08,-2.22);
+      \coordinate (-current) at (-1.08,-2.22);
+      \coordinate (-low-current) at (-.36,-2.22);
+      \coordinate (-com) at (.36,-2.22);
+      \coordinate (-voltage) at (1.08,-2.22);
+      \coordinate (-resistance) at (1.08,-2.22);
+      \coordinate (-frequency) at (1.08,-2.22);
+      \coordinate (-screen) at (0,2.20);
+
+      % Body anchors for composition and callouts.
+      \coordinate (-west) at (-1.78,0);
+      \coordinate (-east) at (1.78,0);
+      \coordinate (-north) at (0,3.10);
+      \coordinate (-south) at (0,-3.10);
+      \coordinate (-center) at (0,0);
+      \coordinate (-north-west) at (-1.78,3.10);
+      \coordinate (-north-east) at (1.78,3.10);
+      \coordinate (-south-west) at (-1.78,-3.10);
+      \coordinate (-south-east) at (1.78,-3.10);
+    }
+  }
+}

@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/app-window-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % With the A2D print lines commented out the plotter autoscales to the voltage.
+  \pic (w) {app window={9.6}{5.4}{COM6 (Arduino Uno) -- Serial Plotter}{}};
+  \draw[otorange,line width=1pt] (6.30,-1.05) -- ++(.35,0) node[right,font=\sffamily\tiny,text=otgray] {voltage};
+  \begin{scope}[shift={(1.0,-4.85)},xscale=.0162,yscale=24.28571]
+    \draw[graph frame] (0,0) rectangle (500,0.1399999999999999);
+    \foreach \x in {100,200,300,400}{\draw[graph grid] (\x,0) -- (\x,0.1399999999999999);}
+    \foreach \x in {0,100,...,500}{\node[tick label,below] at (\x,0) {\x};}
+    \foreach \y/\t in {0.0/1.30,0.04/1.34,0.08/1.38,0.12/1.42}{
+      \draw[graph grid] (0,\y) -- (500,\y);
+      \node[tick label,left] at (0,\y) {\t};}
+    \draw[draw=otorange,line width=1pt] plot[domain=0:500,samples=160] (\x,{(1.37+.008*sin(11*\x)+.004*sin(29*\x))-1.3});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

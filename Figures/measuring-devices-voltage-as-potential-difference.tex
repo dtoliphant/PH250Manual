@@ -1,0 +1,22 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/schematic-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic[rotate=90] (b) at (0,1.3) {battery};
+  \pic[rotate=90] (r) at (3,1.3) {resistor};
+  \draw[circuit wire] (b-right) -- (0,2.6) -- (3,2.6) -- (r-right);
+  \draw[circuit wire] (r-left) -- (3,0) -- (0,0) -- (b-left);
+
+  \node[label,anchor=east] at (-.45,1.3) {Battery};
+  \node[label,anchor=east] at (2.6,1.3) {Resistor};
+  \pic (v) at (4.9,1.3) {meter={$\Delta V$}};
+  \draw[redprobe] (3,2.2) .. controls (3.8,2.2) and (4.2,2.0) .. ($(v-center)+(-.22,.2)$);
+  \draw[blackprobe] (3,.4) .. controls (3.8,.4) and (4.2,.6) .. ($(v-center)+(-.22,-.2)$);
+  \fill[otorange] (3,2.2) circle (1.6pt);
+  \fill[otgray] (3,.4) circle (1.6pt);
+  \node[label,anchor=west] at (5.25,1.3) {Voltmeter};
+  \node[tinylabel,anchor=south west] at (3.15,2.65) {High electrical\\potential energy};
+  \node[tinylabel,anchor=north west] at (3.15,-.05) {Low electrical\\potential energy};
+\end{tikzpicture}
+\end{document}

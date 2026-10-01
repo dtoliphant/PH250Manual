@@ -1,0 +1,12 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/protoboard-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (board) {protoboard={0}{0}};
+  \pic at (board-origin) {protoboard connections};
+  \node[callout text,anchor=east] at (-0.55,4.55) {Usually used\\for positive\\and negative\\ input\\voltages.};
+  \draw[callout] (-0.42,4.45) .. controls (0.15,4.55) and (0.30,4.88) .. (board-top-plus-1);
+  \draw[callout] (-0.42,4.05) .. controls (0.02,3.30) and (0.10,1.25) .. (board-bottom-plus-1);
+\end{tikzpicture}
+\end{document}

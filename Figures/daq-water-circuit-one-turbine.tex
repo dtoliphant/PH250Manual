@@ -1,0 +1,27 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/analogy-pics.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Water analogy for a battery + resistor: the pump lifts water to the upper
+  % tank (like a battery) and it gives up that energy in the turbine.
+  \draw[draw=otgray!55,line width=5pt,line join=round] (0.55,3) -| (.2,1.9);
+  \draw[draw=otsky!70,line width=1.8pt,line join=round] (0.55,3) -| (.2,1.9);
+  \draw[draw=otgray!55,line width=5pt,line join=round] (.2,1.1) |- (0.55,0);
+  \draw[draw=otsky!70,line width=1.8pt,line join=round] (.2,1.1) |- (0.55,0);
+  \draw[draw=otgray!55,line width=5pt,line join=round] (3.45,0) -| (3.9,1.26);
+  \draw[draw=otsky!70,line width=1.8pt,line join=round] (3.45,0) -| (3.9,1.26);
+  \draw[draw=otgray!55,line width=5pt,line join=round] (3.9,1.74) |- (3.45,3);
+  \draw[draw=otsky!70,line width=1.8pt,line join=round] (3.9,1.74) |- (3.45,3);
+
+  \pic at (2,3) {water tank};
+  \pic at (2,0) {water tank};
+  \pic at (.2,1.5) {turbine};
+  \pic at (3.9,1.5) {pump};
+  \node[label,anchor=south] at (2,3.3) {upper tank};
+  \node[label,anchor=north] at (2,-.3) {lower tank};
+  \node[label,anchor=east] at (-.5,1.5) {turbine};
+  \node[label,anchor=west] at (4.2,1.5) {pump};
+  \draw[dimension] (5.4,3) -- (5.4,0) node[midway,right,label] {$\Delta U_g$};
+\end{tikzpicture}
+\end{document}

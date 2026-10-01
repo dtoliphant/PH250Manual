@@ -1,0 +1,78 @@
+% Reusable pieces for the physical analogies used to explain voltage and
+% current.
+%   \input{Reusable_TikZ/analogy-pics.tex}
+%   \pic at (x,y) {person=otblue};          % stick figure standing on (x,y)
+%   \pic at (x,y) {faucet};                 % garden faucet; hose leaves (x,y) downwards
+%   \pic at (x,y) {nozzle};                 % hose nozzle; hose enters at (x,y), spray +x
+%   \pic (t) at (x,y) {water tank};         % anchors t-west, t-east
+%   \pic at (x,y) {turbine};  \pic at (x,y) {pump};
+%   \pic at (x,y) {electron};  \pic at (x,y) {positive charge};
+% Draw hoses with [draw=otteal,line width=6pt,line cap=round] and pipes with
+% [draw=otgray!55,line width=5pt] followed by [draw=otsky!70,line width=1.8pt].
+\providecolor{otblue}{HTML}{0072B2}
+\providecolor{otorange}{HTML}{D62839}
+\providecolor{otamber}{HTML}{E69F00}
+\providecolor{otsky}{HTML}{56B4E9}
+\providecolor{otgray}{HTML}{292929}
+
+\tikzset{
+  pics/person/.default=otgray,
+  pics/person/.style={
+    code={
+      \fill[#1] (0,.88) circle (.12);
+      \draw[#1,line width=1.6pt,line cap=round] (0,.76) -- (0,.38) (0,.38) -- (-.13,0)
+        (0,.38) -- (.13,0) (-.2,.63) -- (0,.70) -- (.2,.63);
+    }
+  },
+  pics/faucet/.style={
+    code={
+      \path[fill=otgray!45,draw=otgray,line width=.6pt] (-.10,0) rectangle (.10,.35);
+      \path[fill=otgray!45,draw=otgray,line width=.6pt,rounded corners=.05cm] (-.45,.30) rectangle (.60,.52);
+      \path[fill=otgray!30,draw=otgray,line width=.6pt] (-.25,.52) rectangle (-.13,.70);
+      \path[fill=otorange!80,draw=otgray,line width=.6pt] (-.19,.78) ellipse (.28 and .08);
+      \path[fill=otgray!55,draw=otgray,line width=.6pt] (-.75,.25) rectangle (-.45,.57);
+    }
+  },
+  pics/nozzle/.style={
+    code={
+      \path[fill=otgray!35,draw=otgray,line width=.6pt,rounded corners=.03cm]
+        (0,-.16) -- (.55,-.13) -- (.80,-.07) -- (.80,.07) -- (.55,.13) -- (0,.16) -- cycle;
+    }
+  },
+  pics/water tank/.style={
+    code={
+      \path[fill=otgray!55,draw=otgray,line width=.7pt,rounded corners=.26cm] (-1.45,-.28) rectangle (1.45,.28);
+      \path[fill=otsky!80,rounded corners=.18cm] (-1.33,-.18) rectangle (1.33,.14);
+      \path[fill=white,opacity=.35,rounded corners=.05cm] (-1.20,.05) rectangle (1.20,.11);
+      \coordinate (-west) at (-1.45,0);
+      \coordinate (-east) at (1.45,0);
+    }
+  },
+  pics/turbine/.style={
+    code={
+      \path[fill=otgray!50,draw=otgray,line width=.7pt] (-.62,-.42) rectangle (0,.42);
+      \path[fill=otgray!25,draw=otgray,line width=.7pt] (0,0) circle (.40);
+      \foreach \a in {15,75,135,195,255,315}{\draw[otorange,line width=1.4pt,line cap=round] (0,0) -- (\a:.33);}
+      \fill[otgray] (0,0) circle (.06);
+    }
+  },
+  pics/pump/.style={
+    code={
+      \path[fill=otblue!25,draw=otgray,line width=.7pt] (0,0) circle (.24);
+      \foreach \a in {45,135,225,315}{\draw[otblue,line width=1.1pt] (0,0) -- (\a:.19);}
+      \draw[-{Latex[length=1.5mm]},otgray,line width=.7pt] (-.34,-.20) arc[start angle=210,end angle=150,radius=.40];
+    }
+  },
+  pics/electron/.style={
+    code={
+      \path[fill=otsky!55,draw=otblue,line width=.6pt] (0,0) circle (.18);
+      \draw[otblue,line width=1pt] (-.08,0) -- (.08,0);
+    }
+  },
+  pics/positive charge/.style={
+    code={
+      \path[fill=otamber!80,draw=otgray,line width=.6pt] (0,0) circle (.18);
+      \draw[otgray,line width=1pt] (-.08,0) -- (.08,0) (0,-.08) -- (0,.08);
+    }
+  },
+}

@@ -1,0 +1,71 @@
+% Reusable circuit-schematic symbols, drawn in plain TikZ so the TikZ editor can
+% show and move them.  Every two-terminal symbol is 1.2 long, centred on the
+% pic origin and lying along +x; rotate the pic to stand it up.  Connect wires
+% to its -left / -right anchors.
+%   \input{Reusable_TikZ/schematic-pic.tex}
+%   \pic[rotate=90] (b) at (0,1.3) {battery};     % + plate at b-right (top)
+%   \pic (r) at (2,2.6) {resistor};
+%   \draw[circuit wire] (b-right) |- (r-left);
+% Symbols: resistor, capacitor, inductor, battery (+ at -right),
+%   ac source, meter={V} (circle with a letter), ground (at the origin,
+%   pointing down).  Extra anchors: -center, and -plus / -minus on battery.
+\providecolor{otgray}{HTML}{292929}
+\providecolor{otblue}{HTML}{0072B2}
+
+\tikzset{
+  pics/resistor/.style={
+    code={
+      \draw[draw=otgray,line width=1.1pt,line join=round,line cap=round]
+        (-.6,0) -- (-.36,0) -- (-.30,.13) -- (-.18,-.13) -- (-.06,.13) -- (.06,-.13)
+        -- (.18,.13) -- (.30,-.13) -- (.36,0) -- (.6,0);
+      \coordinate (-left) at (-.6,0); \coordinate (-right) at (.6,0); \coordinate (-center) at (0,0);
+    }
+  },
+  pics/capacitor/.style={
+    code={
+      \draw[draw=otgray,line width=1.1pt,line cap=round] (-.6,0) -- (-.08,0) (.08,0) -- (.6,0);
+      \draw[draw=otgray,line width=1.6pt] (-.08,-.24) -- (-.08,.24) (.08,-.24) -- (.08,.24);
+      \coordinate (-left) at (-.6,0); \coordinate (-right) at (.6,0); \coordinate (-center) at (0,0);
+    }
+  },
+  pics/inductor/.style={
+    code={
+      \draw[draw=otgray,line width=1.1pt,line cap=round] (-.6,0) -- (-.4,0)
+        arc[start angle=180,end angle=0,radius=.1] arc[start angle=180,end angle=0,radius=.1]
+        arc[start angle=180,end angle=0,radius=.1] arc[start angle=180,end angle=0,radius=.1] -- (.6,0);
+      \coordinate (-left) at (-.6,0); \coordinate (-right) at (.6,0); \coordinate (-center) at (0,0);
+    }
+  },
+  pics/battery/.style={
+    code={
+      \draw[draw=otgray,line width=1.1pt,line cap=round] (-.6,0) -- (-.08,0) (.08,0) -- (.6,0);
+      \draw[draw=otgray,line width=1.1pt] (.08,-.28) -- (.08,.28);
+      \draw[draw=otgray,line width=2.2pt] (-.08,-.14) -- (-.08,.14);
+      \coordinate (-left) at (-.6,0); \coordinate (-right) at (.6,0); \coordinate (-center) at (0,0);
+      \coordinate (-plus) at (.6,0); \coordinate (-minus) at (-.6,0);
+    }
+  },
+  pics/ac source/.style={
+    code={
+      \draw[draw=otgray,line width=1.1pt,line cap=round] (-.6,0) -- (-.3,0) (.3,0) -- (.6,0);
+      \path[draw=otgray,fill=white,line width=1.1pt] (0,0) circle (.3);
+      \draw[draw=otgray,line width=1pt] (-.18,0) .. controls (-.09,.22) and (-.09,.22) .. (0,0)
+        .. controls (.09,-.22) and (.09,-.22) .. (.18,0);
+      \coordinate (-left) at (-.6,0); \coordinate (-right) at (.6,0); \coordinate (-center) at (0,0);
+    }
+  },
+  pics/meter/.default=V,
+  pics/meter/.style={
+    code={
+      \draw[draw=otgray,line width=1.1pt,line cap=round] (-.6,0) -- (-.3,0) (.3,0) -- (.6,0);
+      \path[draw=otgray,fill=otblue!8,line width=1.1pt] (0,0) circle (.3);
+      \node[font=\sffamily,text=otgray] at (0,0) {#1};
+      \coordinate (-left) at (-.6,0); \coordinate (-right) at (.6,0); \coordinate (-center) at (0,0);
+    }
+  },
+  pics/ground/.style={
+    code={
+      \draw[draw=otgray,line width=1.1pt] (0,0) -- (0,-.2) (-.22,-.2) -- (.22,-.2) (-.14,-.28) -- (.14,-.28) (-.06,-.36) -- (.06,-.36);
+    }
+  },
+}

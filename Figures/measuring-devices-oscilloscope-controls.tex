@@ -1,0 +1,22 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/oscilloscope-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (s) {oscilloscope={CH1 1.00V}{}{M 1.00ms}{8}};
+  \begin{scope}[shift={(s-screen-center)},xscale=.4,yscale=0.4]
+    \clip (-5,-4) rectangle (5,4);
+    \draw[otamber,line width=1.3pt] plot[domain=-5:5,samples=160] (\x,{2.4*sin(120*\x)});
+  \end{scope}
+  \node[label,anchor=east] (ps) at (-5.0,1.2) {plotting\\screen};
+  \draw[callout] (ps.east) -- ($(s-grid-north-west)+(.5,-.6)$);
+  \node[label,anchor=south] (ts) at (2.2,3.05) {time (horizontal)\\scale adjust};
+  \draw[callout] (ts.south) .. controls ++(0,-.5) and ++(-.6,.5) .. ($(s-time-scale)+(-.2,.25)$);
+  \node[label,anchor=west] (tr) at (5.0,1.1) {triggering\\controls};
+  \draw[callout] (tr.west) -- ($(s-trigger-level)+(.2,0)$);
+  \node[label,anchor=north] (si) at (.6,-3.0) {signal input};
+  \draw[callout] (si.north) .. controls ++(0,.6) and ++(-.4,-.3) .. ($(s-ch1)+(-.2,-.1)$);
+  \node[label,anchor=west] (vs) at (5.0,-.9) {voltage (vertical)\\scale adjust};
+  \draw[callout] (vs.west) .. controls ++(-1.5,0) and ++(.4,-.5) .. ($(s-ch2-scale)+(.1,-.3)$);
+\end{tikzpicture}
+\end{document}

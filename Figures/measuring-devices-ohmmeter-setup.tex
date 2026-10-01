@@ -1,0 +1,21 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/multimeter-pic.tex}
+\input{Reusable_TikZ/breadboard-parts-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Resistance: dial on ohms, red lead in the V-ohm jack, and the resistor held
+  % by alligator clips (not fingers!) out of the circuit.
+  \pic[scale=.6,transform shape] (m) at (0,0) {multimeter={432}{$\Omega$}{188}{1}};
+  \pic[scale=.45,transform shape] (r) at (4.6,-.2) {banded resistor};
+  \pic[rotate=180] (cr) at ($(r-left)+(.05,0)$) {alligator clip=otorange};
+  \pic (cb) at ($(r-right)+(-.05,0)$) {alligator clip=otgray};
+  \draw[redwire] (m-jack-vomega) .. controls ++(0,-1.4) and ++(-1.0,0) .. (cr-wire);
+  \draw[blackwire] (m-jack-com) .. controls ++(0,-2.4) and ++(1.2,0) .. (cb-wire);
+  \node[label,anchor=west] (d) at (2.4,1.6) {dial set to $\Omega$};
+  \draw[callout] (d.west) -- ($(m-selector)+(188:.55)+(0,.1)$);
+  \node[label,anchor=east] (p) at (-1.6,-1.9) {red probe in the\\V$\Omega$ connection};
+  \draw[callout] (p.east) .. controls ++(.8,0) and ++(0,-.5) .. ($(m-jack-vomega)+(0,-.2)$);
+  \node[label,anchor=north] at (4.6,-2.1) {alligator clips keep your\\hands off the leads};
+\end{tikzpicture}
+\end{document}

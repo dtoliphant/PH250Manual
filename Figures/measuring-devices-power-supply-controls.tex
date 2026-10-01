@@ -1,0 +1,26 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/power-supply-pic.tex}
+\begin{document}
+\begin{tikzpicture}
+  \pic (ps) {power supply={05.0}{0.00}};
+  \node[label,anchor=south] (ci) at (-2.3,2.35) {rough current indicator};
+  \draw[callout] (ci.south) -- ($(ps-current-display)+(-.6,.4)$);
+  \node[label,anchor=south] (vi) at (2.3,2.35) {rough voltage indicator};
+  \draw[callout] (vi.south) -- ($(ps-voltage-display)+(.4,.4)$);
+  \node[label,anchor=east] (cl) at (-3.35,-.2) {current limiter\\adjust knob};
+  \draw[callout] (cl.east) -- ($(ps-current-knob)+(-.4,0)$);
+  \node[label,anchor=east] (pw) at (-3.35,-1.3) {power switch};
+  \draw[callout] (pw.east) -- ($(ps-power)+(-.32,0)$);
+  \node[label,anchor=west] (vc) at (3.35,.55) {voltage coarse\\adjust knob};
+  \draw[callout] (vc.west) .. controls ++(-1.2,0) and ++(.5,.5) .. ($(ps-voltage-coarse)+(.3,.25)$);
+  \node[label,anchor=west] (vf) at (3.35,-.45) {voltage fine\\adjust knob};
+  \draw[callout] (vf.west) -- ($(ps-voltage-fine)+(.3,0)$);
+  \node[label,anchor=north] (neg) at (-1.3,-2.25) {negative voltage out};
+  \draw[callout] (neg.north) -- ($(ps-minus)+(0,-.25)$);
+  \node[label,anchor=north] (pos) at (2.4,-2.25) {positive voltage out};
+  \draw[callout] (pos.north) -- ($(ps-plus)+(.1,-.25)$);
+  \node[tinylabel,anchor=north] (gnd) at (.55,-2.3) {chassis\\ground};
+  \draw[callout] (gnd.north) -- ($(ps-gnd)+(0,-.27)$);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt]{standalone}
+\input{Reusable_TikZ/lab-style.tex}
+\input{Reusable_TikZ/analogy-pics.tex}
+\begin{document}
+\begin{tikzpicture}
+  % Case 1: electrons move right
+  \path[fill=otsky!8,draw=otgray,line width=1pt,rounded corners=2pt] (0,0) rectangle (8.4,-3.0);
+  \node[label,anchor=north west] at (.15,-.1) {\textbf{Case 1:} negative charges flow to the right};
+  \foreach \x/\y in {1.6/-1.0,2.2/-1.35,1.8/-1.7,2.6/-1.05,2.4/-1.6}{\pic at (\x,\y) {electron};}
+  \draw[draw=otblue,line width=3pt,-{Latex[length=3mm,width=5mm]}] (3.5,-1.35) -- (5.2,-1.35);
+  \node[label,anchor=north west,align=left] at (.15,-2.0) {Result: left side is more positive than before,\\\phantom{Result: }right side is more negative than before};
+  % Case 2: positive charges move left
+  \path[fill=otamber!8,draw=otgray,line width=1pt,rounded corners=2pt] (0,-3.25) rectangle (8.4,-6.25);
+  \node[label,anchor=north west] at (.15,-3.35) {\textbf{Case 2:} positive charges flow to the left};
+  \draw[draw=otamber,line width=3pt,-{Latex[length=3mm,width=5mm]}] (5.2,-4.6) -- (3.5,-4.6);
+  \foreach \x/\y in {6.0/-4.25,6.6/-4.6,6.2/-4.95,7.0/-4.3,6.8/-4.85}{\pic at (\x,\y) {positive charge};}
+  \node[label,anchor=north west,align=left] at (.15,-5.25) {Result: left side is more positive than before,\\\phantom{Result: }right side is more negative than before};
+\end{tikzpicture}
+\end{document}
